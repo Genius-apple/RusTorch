@@ -11,6 +11,7 @@ pub trait Dataset {
 pub struct DataLoader<D: Dataset> {
     dataset: D,
     batch_size: usize,
+    #[allow(dead_code)]
     shuffle: bool,
     // Iterator state
     indices: Vec<usize>,
