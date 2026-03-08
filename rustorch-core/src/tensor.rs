@@ -324,28 +324,9 @@ impl Tensor {
         strides
     }
     
-    pub fn expand(&self, target_shape: &[usize]) -> Tensor {
-        // Simple expand: only supports broadcasting (dim=1 -> dim=N)
-        // If not broadcastable, panic.
-        // Since we don't have stride 0 support in ops, we just copy data.
-        // (Real expansion uses stride 0)
-        
-        // Check broadcast
-        // ...
-        // Naive copy implementation for now:
-        let input_size = self.shape().iter().product::<usize>();
-        let target_size = target_shape.iter().product::<usize>();
-        let repeats = target_size / input_size; // Simplified
-        
-        let input_guard = self.data();
-        let input_data = &*input_guard;
-        let mut data = Vec::with_capacity(target_size);
-        for _ in 0..repeats {
-            data.extend_from_slice(input_data);
-        }
-        
-        Tensor::new(&data, target_shape)
-    }
+    // pub fn expand(&self, target_shape: &[usize]) -> Tensor {
+    //    crate::broadcast::expand(self, target_shape)
+    // }
     
     pub fn copy_from_slice(&self, src: &[f32]) {
         let mut guard = self.data_mut();
@@ -366,6 +347,20 @@ impl Add<Tensor> for Tensor {
     type Output = Tensor;
     fn add(self, rhs: Tensor) -> Tensor {
         self.add(&rhs)
+    }
+}
+
+impl Sub<Tensor> for Tensor {
+    type Output = Tensor;
+    fn sub(self, rhs: Tensor) -> Tensor {
+        self.sub(&rhs)
+    }
+}
+
+impl Mul<Tensor> for Tensor {
+    type Output = Tensor;
+    fn mul(self, rhs: Tensor) -> Tensor {
+        self.mul(&rhs)
     }
 }
 

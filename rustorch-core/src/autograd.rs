@@ -13,7 +13,7 @@ pub fn backward(tensor: &Tensor, grad: &Tensor) {
     // To avoid re-computation, we should use a proper engine.
     
     // For now, let's just delegate to the Op.
-    if let Some(op) = tensor.op() {
+    if let Some(op) = &tensor.inner.op {
         op.backward(grad);
     }
 }
