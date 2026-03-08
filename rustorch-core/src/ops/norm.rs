@@ -258,7 +258,7 @@ pub fn batch_norm2d(
     let storage = Storage::new(output_data);
     let mut tensor = Tensor::new_with_storage(storage, shape);
     
-    if training && (input.requires_grad() || gamma.map_or(false, |g| g.requires_grad()) || beta.is_some_and(|b| b.requires_grad())) {
+    if training && (input.requires_grad() || gamma.is_some_and(|g| g.requires_grad()) || beta.is_some_and(|b| b.requires_grad())) {
         tensor.set_requires_grad_mut(true);
         // Need to pass mean/inv_std to backward
         // But mean/inv_std are Vec<f32>.
@@ -491,7 +491,7 @@ pub fn layer_norm(
     let storage = Storage::new(output_data);
     let mut tensor = Tensor::new_with_storage(storage, shape);
     
-    if input.requires_grad() || weight.map_or(false, |w| w.requires_grad()) || bias.is_some_and(|b| b.requires_grad()) {
+    if input.requires_grad() || weight.is_some_and(|w| w.requires_grad()) || bias.is_some_and(|b| b.requires_grad()) {
         tensor.set_requires_grad_mut(true);
         // Store mean/inv_std for backward
         // They are (OuterDim). We can store as (OuterDim) tensor.
