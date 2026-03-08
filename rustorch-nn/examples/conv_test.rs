@@ -34,9 +34,8 @@ fn main() {
     // 5. Backward
     println!("Backward pass...");
     let grad = Tensor::ones(output.shape());
-    output.backward_with_grad(grad);
-    
-    // Check gradients
+    output.accumulate_grad(&grad);
+    output.backward_step();
     let w_grad = conv.weight.grad().unwrap();
     println!("Weight Grad shape: {:?}", w_grad.shape());
     

@@ -45,7 +45,8 @@ fn main() {
         let grad_output = Tensor::new(&grad_data, output.shape());
         
         // Backward
-        output.backward_with_grad(grad_output);
+        output.accumulate_grad(&grad_output);
+        output.backward_step();
         
         // Optimize
         optimizer.step();

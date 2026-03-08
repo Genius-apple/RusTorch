@@ -1,10 +1,11 @@
 use rustorch_core::Tensor;
 use rustorch_nn::{Linear, Conv2d, Module};
+#[cfg(feature = "serde")]
 use serde::{Serialize, Deserialize};
 use std::fs::File;
 use std::io::{Read, Write};
 
-#[derive(Serialize, Deserialize)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 struct MyModel {
     fc: Linear,
     conv: Conv2d,
@@ -36,24 +37,27 @@ fn main() {
     println!("Original Weight[0]: {}", model.fc.weight.data()[0]);
     
     // Save
-    let serialized = serde_json::to_string(&model).unwrap();
-    println!("Serialized length: {}", serialized.len());
-    
-    let mut file = File::create("model.json").unwrap();
-    file.write_all(serialized.as_bytes()).unwrap();
-    
-    // Load
-    let mut file = File::open("model.json").unwrap();
-    let mut contents = String::new();
-    file.read_to_string(&mut contents).unwrap();
-    
-    let loaded_model: MyModel = serde_json::from_str(&contents).unwrap();
-    
-    println!("Loaded Weight[0]: {}", loaded_model.fc.weight.data()[0]);
-    
-    assert!((model.fc.weight.data()[0] - loaded_model.fc.weight.data()[0]).abs() < 1e-6);
-    println!("Serialization test passed!");
-    
-    // Cleanup
-    std::fs::remove_file("model.json").unwrap();
+    #[cfg(feature = "serde")]
+    {
+        let serialized = serde_json::to_string(&model).unwrap();
+        println!("Serialized length: {}", serialized.len());
+        
+        let mut file = File::create("model.json").unwrap();
+        file.write_all(serialized.as_bytes()).unwrap();
+        
+        // Load
+        let mut file = File::open("model.json").unwrap();
+        let mut contents = String::new();
+        file.read_to_string(&mut contents).unwrap();
+        
+        let loaded_model: MyModel = serde_json::from_str(&contents).unwrap();
+        
+        println!("Loaded Weight[0]: {}", loaded_model.fc.weight.data()[0]);
+        
+        assert!((model.fc.weight.data()[0] - loaded_model.fc.weight.data()[0]).abs() < 1e-6);
+        println!("Serialization test passed!");
+        
+        // Cleanup
+        std::fs::remove_file("model.json").unwrap();
+    }
 }
