@@ -1,6 +1,6 @@
 # RusTorch 🦀🔥
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/trae-ai/rustorch/ci.yml?branch=main)](https://github.com/trae-ai/rustorch/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Genius-apple/RusTorch/ci.yml?branch=main)](https://github.com/Genius-apple/RusTorch/actions)
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
 [![Crates.io](https://img.shields.io/crates/v/rustorch-core.svg)](https://crates.io/crates/rustorch-core)
 [![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org)
@@ -40,8 +40,8 @@ Add RusTorch to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rustorch-core = { git = "https://github.com/your-username/rustorch" }
-rustorch-nn = { git = "https://github.com/your-username/rustorch" }
+rustorch-core = { git = "https://github.com/Genius-apple/RusTorch" }
+rustorch-nn = { git = "https://github.com/Genius-apple/RusTorch" }
 ```
 
 ### 🔥 Train a Model in 30 Seconds
