@@ -1,0 +1,12 @@
+[package]
+name = "rustorch-text"
+version = "0.1.0"
+edition = "2021"
+authors = ["Trae AI <trae@example.com>"]
+description = "NLP utilities and datasets for RusTorch"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+rustorch-core = { path = "../rustorch-core", version = "0.1.0" }
+rustorch-nn = { path = "../rustorch-nn", version = "0.1.0" }
+regex = "1.10"

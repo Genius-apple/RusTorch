@@ -1,0 +1,4 @@
+wrappers::Unalign<u8>: pointer::transmute::TransmuteFromPtr<read_only_def::ReadOnly<NonZero<u8>>, pointer::invariant::Shared, pointer::invariant::Initialized, pointer::invariant::Valid, CastSizedExact, pointer::invariant::BecauseImmutable>
+pointer::transmute::TransmuteFrom<read_only_def::ReadOnly<NonZero<u8>>, pointer::invariant::Initialized, pointer::invariant::Valid>
+pointer::transmute::TransmuteFromPtr<read_only_def::ReadOnly<NonZero<u8>>, pointer::invariant::Shared, pointer::invariant::Initialized, pointer::invariant::Valid, CastSizedExact, pointer::invariant::BecauseImmutable>
+pointer::transmute::TryTransmuteFromPtr<read_only_def::ReadOnly<NonZero<u8>>, pointer::invariant::Shared, pointer::invariant::Initialized, pointer::invariant::Valid, CastSizedExact, pointer::invariant::BecauseImmutable>

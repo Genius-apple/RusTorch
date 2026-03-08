@@ -1,0 +1,1839 @@
+   0.216515700s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="rustorch_core"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-core v0.1.0 (E:\RusTorch\rustorch-core)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rustorch_core", ["lib"], "E:\\RusTorch\\rustorch-core\\src\\lib.rs", Edition2021) }
+   0.216597000s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="rustorch_core"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-core-478370b09d61ecb6\lib-rustorch_core`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.235728800s  INFO prepare_target{force=false package_id=rand v0.8.5 target="rand"}: cargo::core::compiler::fingerprint: fingerprint error for rand v0.8.5/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rand", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\rand-0.8.5\\src\\lib.rs", Edition2018) }
+   0.235760800s  INFO prepare_target{force=false package_id=rand v0.8.5 target="rand"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rand-a1be418e68060e20\lib-rand`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::cli::main
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  18: main
+  19: __tmainCRTStartup
+  20: mainCRTStartup
+  21: <unknown>
+  22: <unknown>
+   0.236202700s  INFO prepare_target{force=false package_id=rand_chacha v0.3.1 target="rand_chacha"}: cargo::core::compiler::fingerprint: fingerprint error for rand_chacha v0.3.1/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rand_chacha", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\rand_chacha-0.3.1\\src\\lib.rs", Edition2018) }
+   0.236225400s  INFO prepare_target{force=false package_id=rand_chacha v0.3.1 target="rand_chacha"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rand_chacha-c336bce8bdd94314\lib-rand_chacha`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::cli::main
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  19: main
+  20: __tmainCRTStartup
+  21: mainCRTStartup
+  22: <unknown>
+  23: <unknown>
+   0.236557900s  INFO prepare_target{force=false package_id=ppv-lite86 v0.2.21 target="ppv_lite86"}: cargo::core::compiler::fingerprint: fingerprint error for ppv-lite86 v0.2.21/Check { test: false }/TargetInner { ..: lib_target("ppv_lite86", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\ppv-lite86-0.2.21\\src\\lib.rs", Edition2021) }
+   0.236574800s  INFO prepare_target{force=false package_id=ppv-lite86 v0.2.21 target="ppv_lite86"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\ppv-lite86-c35420e244b5fea0\lib-ppv_lite86`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::cli::main
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  20: main
+  21: __tmainCRTStartup
+  22: mainCRTStartup
+  23: <unknown>
+  24: <unknown>
+   0.236879600s  INFO prepare_target{force=false package_id=zerocopy v0.8.40 target="zerocopy"}: cargo::core::compiler::fingerprint: fingerprint error for zerocopy v0.8.40/Check { test: false }/TargetInner { ..: lib_target("zerocopy", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\zerocopy-0.8.40\\src\\lib.rs", Edition2021) }
+   0.236895500s  INFO prepare_target{force=false package_id=zerocopy v0.8.40 target="zerocopy"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\zerocopy-e917262aca16021a\lib-zerocopy`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::cli::main
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  21: main
+  22: __tmainCRTStartup
+  23: mainCRTStartup
+  24: <unknown>
+  25: <unknown>
+   0.240557400s  INFO prepare_target{force=false package_id=rand_distr v0.4.3 target="rand_distr"}: cargo::core::compiler::fingerprint: fingerprint error for rand_distr v0.4.3/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rand_distr", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\rand_distr-0.4.3\\src\\lib.rs", Edition2018) }
+   0.240580800s  INFO prepare_target{force=false package_id=rand_distr v0.4.3 target="rand_distr"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rand_distr-c7ecbfeaa44a2e85\lib-rand_distr`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::cli::main
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  18: main
+  19: __tmainCRTStartup
+  20: mainCRTStartup
+  21: <unknown>
+  22: <unknown>
+   0.242414300s  INFO prepare_target{force=false package_id=thiserror v1.0.69 target="thiserror"}: cargo::core::compiler::fingerprint: fingerprint error for thiserror v1.0.69/Check { test: false }/TargetInner { ..: lib_target("thiserror", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\thiserror-1.0.69\\src\\lib.rs", Edition2021) }
+   0.242435300s  INFO prepare_target{force=false package_id=thiserror v1.0.69 target="thiserror"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\thiserror-6a32600e18e68a22\lib-thiserror`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::cli::main
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  18: main
+  19: __tmainCRTStartup
+  20: mainCRTStartup
+  21: <unknown>
+  22: <unknown>
+   0.243064200s  INFO prepare_target{force=false package_id=thiserror v1.0.69 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for thiserror v1.0.69/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\thiserror-1.0.69\\build.rs", Edition2021) }
+   0.243081400s  INFO prepare_target{force=false package_id=thiserror v1.0.69 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\thiserror-21447555d9f5aae2\run-build-script-build-script-build`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::custom_build::build_work
+   6: cargo::core::compiler::custom_build::prepare
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::cli::main
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  21: main
+  22: __tmainCRTStartup
+  23: mainCRTStartup
+  24: <unknown>
+  25: <unknown>
+   0.243450900s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="rustorch_core"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-core v0.1.0 (E:\RusTorch\rustorch-core)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("rustorch_core", ["lib"], "E:\\RusTorch\\rustorch-core\\src\\lib.rs", Edition2021) }
+   0.243466900s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="rustorch_core"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-core-f70eeffdf3e7c83a\test-lib-rustorch_core`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.243913300s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="autograd_test"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-core v0.1.0 (E:\RusTorch\rustorch-core)/Check { test: true }/TargetInner { kind: "test", name: "autograd_test", benched: false, ..: with_path("E:\\RusTorch\\rustorch-core\\tests\\autograd_test.rs", Edition2021) }
+   0.243936000s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="autograd_test"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-core-91775e7bc212f380\test-integration-test-autograd_test`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.244479500s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="matmul_bench"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-core v0.1.0 (E:\RusTorch\rustorch-core)/Check { test: true }/TargetInner { kind: "bench", name: "matmul_bench", tested: false, ..: with_path("E:\\RusTorch\\rustorch-core\\benches\\matmul_bench.rs", Edition2021) }
+   0.244501400s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="matmul_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-core-3446211130028a7e\test-bench-matmul_bench`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.244984300s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="jit_demo"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-core v0.1.0 (E:\RusTorch\rustorch-core)/Check { test: false }/TargetInner { kind: "example", name: "jit_demo", tested: false, benched: false, ..: with_path("E:\\RusTorch\\rustorch-core\\examples\\jit_demo.rs", Edition2021) }
+   0.245003500s  INFO prepare_target{force=false package_id=rustorch-core v0.1.0 (E:\RusTorch\rustorch-core) target="jit_demo"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-core-e3d9dbd3b235d627\example-jit_demo`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.245876300s  INFO prepare_target{force=false package_id=rustorch-cuda v0.1.0 (E:\RusTorch\rustorch-cuda) target="rustorch_cuda"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-cuda v0.1.0 (E:\RusTorch\rustorch-cuda)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rustorch_cuda", ["lib"], "E:\\RusTorch\\rustorch-cuda\\src\\lib.rs", Edition2021) }
+   0.245912300s  INFO prepare_target{force=false package_id=rustorch-cuda v0.1.0 (E:\RusTorch\rustorch-cuda) target="rustorch_cuda"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-cuda-176c3ae32a645090\lib-rustorch_cuda`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.246388100s  INFO prepare_target{force=false package_id=cudarc v0.9.15 target="cudarc"}: cargo::core::compiler::fingerprint: fingerprint error for cudarc v0.9.15/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("cudarc", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\cudarc-0.9.15\\src\\lib.rs", Edition2021) }
+   0.246412800s  INFO prepare_target{force=false package_id=cudarc v0.9.15 target="cudarc"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\cudarc-3e0cc5e977256a87\lib-cudarc`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::cli::main
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  18: main
+  19: __tmainCRTStartup
+  20: mainCRTStartup
+  21: <unknown>
+  22: <unknown>
+   0.247264400s  INFO prepare_target{force=false package_id=cudarc v0.9.15 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for cudarc v0.9.15/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\cudarc-0.9.15\\build.rs", Edition2021) }
+   0.247281600s  INFO prepare_target{force=false package_id=cudarc v0.9.15 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\cudarc-b7115f1b29e667e6\run-build-script-build-script-build`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::custom_build::build_work
+   6: cargo::core::compiler::custom_build::prepare
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::cli::main
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  21: main
+  22: __tmainCRTStartup
+  23: mainCRTStartup
+  24: <unknown>
+  25: <unknown>
+   0.247562400s  INFO prepare_target{force=false package_id=rustorch-cuda v0.1.0 (E:\RusTorch\rustorch-cuda) target="rustorch_cuda"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-cuda v0.1.0 (E:\RusTorch\rustorch-cuda)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("rustorch_cuda", ["lib"], "E:\\RusTorch\\rustorch-cuda\\src\\lib.rs", Edition2021) }
+   0.247576200s  INFO prepare_target{force=false package_id=rustorch-cuda v0.1.0 (E:\RusTorch\rustorch-cuda) target="rustorch_cuda"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-cuda-2a012a4c64792cde\test-lib-rustorch_cuda`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.247898200s  INFO prepare_target{force=false package_id=rustorch-metal v0.1.0 (E:\RusTorch\rustorch-metal) target="rustorch_metal"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-metal v0.1.0 (E:\RusTorch\rustorch-metal)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rustorch_metal", ["lib"], "E:\\RusTorch\\rustorch-metal\\src\\lib.rs", Edition2021) }
+   0.247912800s  INFO prepare_target{force=false package_id=rustorch-metal v0.1.0 (E:\RusTorch\rustorch-metal) target="rustorch_metal"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-metal-f73b651e5664f448\lib-rustorch_metal`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.248247400s  INFO prepare_target{force=false package_id=rustorch-metal v0.1.0 (E:\RusTorch\rustorch-metal) target="rustorch_metal"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-metal v0.1.0 (E:\RusTorch\rustorch-metal)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("rustorch_metal", ["lib"], "E:\\RusTorch\\rustorch-metal\\src\\lib.rs", Edition2021) }
+   0.248261700s  INFO prepare_target{force=false package_id=rustorch-metal v0.1.0 (E:\RusTorch\rustorch-metal) target="rustorch_metal"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-metal-b7ff752f5b6e76ec\test-lib-rustorch_metal`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.249334000s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="rustorch_nn"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rustorch_nn", ["lib"], "E:\\RusTorch\\rustorch-nn\\src\\lib.rs", Edition2021) }
+   0.249353700s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="rustorch_nn"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-nn-2956cd193decd025\lib-rustorch_nn`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.249763800s  INFO prepare_target{force=false package_id=serde_json v1.0.149 target="serde_json"}: cargo::core::compiler::fingerprint: fingerprint error for serde_json v1.0.149/Check { test: false }/TargetInner { ..: lib_target("serde_json", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\serde_json-1.0.149\\src\\lib.rs", Edition2021) }
+   0.249781200s  INFO prepare_target{force=false package_id=serde_json v1.0.149 target="serde_json"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\serde_json-a3e6e89264af97e0\lib-serde_json`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::cli::main
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  18: main
+  19: __tmainCRTStartup
+  20: mainCRTStartup
+  21: <unknown>
+  22: <unknown>
+   0.250393000s  INFO prepare_target{force=false package_id=serde_core v1.0.228 target="serde_core"}: cargo::core::compiler::fingerprint: fingerprint error for serde_core v1.0.228/Check { test: false }/TargetInner { ..: lib_target("serde_core", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\serde_core-1.0.228\\src\\lib.rs", Edition2021) }
+   0.250411000s  INFO prepare_target{force=false package_id=serde_core v1.0.228 target="serde_core"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\serde_core-a9439ecfa19495f9\lib-serde_core`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::cli::main
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  19: main
+  20: __tmainCRTStartup
+  21: mainCRTStartup
+  22: <unknown>
+  23: <unknown>
+   0.250993300s  INFO prepare_target{force=false package_id=serde_core v1.0.228 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for serde_core v1.0.228/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\serde_core-1.0.228\\build.rs", Edition2021) }
+   0.251010900s  INFO prepare_target{force=false package_id=serde_core v1.0.228 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\serde_core-24e643f370e45c9b\run-build-script-build-script-build`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::custom_build::build_work
+   6: cargo::core::compiler::custom_build::prepare
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::cli::main
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  22: main
+  23: __tmainCRTStartup
+  24: mainCRTStartup
+  25: <unknown>
+  26: <unknown>
+   0.252223500s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="rustorch_nn"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("rustorch_nn", ["lib"], "E:\\RusTorch\\rustorch-nn\\src\\lib.rs", Edition2021) }
+   0.252243500s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="rustorch_nn"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-nn-26238ea52eabd8fc\test-lib-rustorch_nn`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.252665200s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="advanced_ops"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn)/Check { test: false }/TargetInner { kind: "example", name: "advanced_ops", tested: false, benched: false, ..: with_path("E:\\RusTorch\\rustorch-nn\\examples\\advanced_ops.rs", Edition2021) }
+   0.252682800s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="advanced_ops"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-nn-4919d653f1357152\example-advanced_ops`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.253111300s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="conv_test"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn)/Check { test: false }/TargetInner { kind: "example", name: "conv_test", tested: false, benched: false, ..: with_path("E:\\RusTorch\\rustorch-nn\\examples\\conv_test.rs", Edition2021) }
+   0.253127700s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="conv_test"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-nn-44abdad6864d58df\example-conv_test`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.253540100s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="full_training_demo"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn)/Check { test: false }/TargetInner { kind: "example", name: "full_training_demo", tested: false, benched: false, ..: with_path("E:\\RusTorch\\rustorch-nn\\examples\\full_training_demo.rs", Edition2021) }
+   0.253555000s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="full_training_demo"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-nn-5515bae6db290819\example-full_training_demo`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.253960100s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="linear_regression"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn)/Check { test: false }/TargetInner { kind: "example", name: "linear_regression", tested: false, benched: false, ..: with_path("E:\\RusTorch\\rustorch-nn\\examples\\linear_regression.rs", Edition2021) }
+   0.253977300s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="linear_regression"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-nn-de237f3b2e94b64f\example-linear_regression`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.254377900s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="serialization"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn)/Check { test: false }/TargetInner { kind: "example", name: "serialization", tested: false, benched: false, ..: with_path("E:\\RusTorch\\rustorch-nn\\examples\\serialization.rs", Edition2021) }
+   0.254393900s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="serialization"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-nn-d0cc515c8384ee4f\example-serialization`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.254796900s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="tracing"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn)/Check { test: false }/TargetInner { kind: "example", name: "tracing", tested: false, benched: false, ..: with_path("E:\\RusTorch\\rustorch-nn\\examples\\tracing.rs", Edition2021) }
+   0.254812100s  INFO prepare_target{force=false package_id=rustorch-nn v0.1.0 (E:\RusTorch\rustorch-nn) target="tracing"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-nn-a0c4eaa97dd974c0\example-tracing`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.255603900s  INFO prepare_target{force=false package_id=rustorch-text v0.1.0 (E:\RusTorch\rustorch-text) target="rustorch_text"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-text v0.1.0 (E:\RusTorch\rustorch-text)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rustorch_text", ["lib"], "E:\\RusTorch\\rustorch-text\\src\\lib.rs", Edition2021) }
+   0.255624700s  INFO prepare_target{force=false package_id=rustorch-text v0.1.0 (E:\RusTorch\rustorch-text) target="rustorch_text"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-text-a4d10baa20daaed8\lib-rustorch_text`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.256426000s  INFO prepare_target{force=false package_id=rustorch-text v0.1.0 (E:\RusTorch\rustorch-text) target="rustorch_text"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-text v0.1.0 (E:\RusTorch\rustorch-text)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("rustorch_text", ["lib"], "E:\\RusTorch\\rustorch-text\\src\\lib.rs", Edition2021) }
+   0.256445400s  INFO prepare_target{force=false package_id=rustorch-text v0.1.0 (E:\RusTorch\rustorch-text) target="rustorch_text"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-text-e71046499ff21cee\test-lib-rustorch_text`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.258531700s  INFO prepare_target{force=false package_id=rustorch-vision v0.1.0 (E:\RusTorch\rustorch-vision) target="rustorch_vision"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-vision v0.1.0 (E:\RusTorch\rustorch-vision)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rustorch_vision", ["lib"], "E:\\RusTorch\\rustorch-vision\\src\\lib.rs", Edition2021) }
+   0.258553400s  INFO prepare_target{force=false package_id=rustorch-vision v0.1.0 (E:\RusTorch\rustorch-vision) target="rustorch_vision"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-vision-a63aa61ef919c54f\lib-rustorch_vision`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.258984400s  INFO prepare_target{force=false package_id=image v0.24.9 target="image"}: cargo::core::compiler::fingerprint: fingerprint error for image v0.24.9/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("image", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\image-0.24.9\\src\\lib.rs", Edition2021) }
+   0.259002700s  INFO prepare_target{force=false package_id=image v0.24.9 target="image"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\image-b671b3e2febebe06\lib-image`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::cli::main
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  18: main
+  19: __tmainCRTStartup
+  20: mainCRTStartup
+  21: <unknown>
+  22: <unknown>
+   0.259756500s  INFO prepare_target{force=false package_id=exr v1.74.0 target="exr"}: cargo::core::compiler::fingerprint: fingerprint error for exr v1.74.0/Check { test: false }/TargetInner { ..: lib_target("exr", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\exr-1.74.0\\src\\lib.rs", Edition2018) }
+   0.259776400s  INFO prepare_target{force=false package_id=exr v1.74.0 target="exr"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\exr-8dc4d859869ac0e9\lib-exr`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::cli::main
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  19: main
+  20: __tmainCRTStartup
+  21: mainCRTStartup
+  22: <unknown>
+  23: <unknown>
+   0.260278200s  INFO prepare_target{force=false package_id=half v2.7.1 target="half"}: cargo::core::compiler::fingerprint: fingerprint error for half v2.7.1/Check { test: false }/TargetInner { ..: lib_target("half", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\half-2.7.1\\src\\lib.rs", Edition2021) }
+   0.260296600s  INFO prepare_target{force=false package_id=half v2.7.1 target="half"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\half-6a7818a68bab2495\lib-half`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::cli::main
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  20: main
+  21: __tmainCRTStartup
+  22: mainCRTStartup
+  23: <unknown>
+  24: <unknown>
+   0.261422900s  INFO prepare_target{force=false package_id=png v0.17.16 target="png"}: cargo::core::compiler::fingerprint: fingerprint error for png v0.17.16/Check { test: false }/TargetInner { ..: lib_target("png", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\png-0.17.16\\src\\lib.rs", Edition2018) }
+   0.261442300s  INFO prepare_target{force=false package_id=png v0.17.16 target="png"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\png-b4d0c212b920f571\lib-png`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::cli::main
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  19: main
+  20: __tmainCRTStartup
+  21: mainCRTStartup
+  22: <unknown>
+  23: <unknown>
+   0.261954300s  INFO prepare_target{force=false package_id=crc32fast v1.5.0 target="crc32fast"}: cargo::core::compiler::fingerprint: fingerprint error for crc32fast v1.5.0/Check { test: false }/TargetInner { ..: lib_target("crc32fast", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\crc32fast-1.5.0\\src\\lib.rs", Edition2021) }
+   0.261972600s  INFO prepare_target{force=false package_id=crc32fast v1.5.0 target="crc32fast"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\crc32fast-8960586dd71244ab\lib-crc32fast`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::cli::main
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  20: main
+  21: __tmainCRTStartup
+  22: mainCRTStartup
+  23: <unknown>
+  24: <unknown>
+   0.262541800s  INFO prepare_target{force=false package_id=crc32fast v1.5.0 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for crc32fast v1.5.0/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\crc32fast-1.5.0\\build.rs", Edition2021) }
+   0.262559200s  INFO prepare_target{force=false package_id=crc32fast v1.5.0 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\crc32fast-c0cd0244bdad7023\run-build-script-build-script-build`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::custom_build::build_work
+   6: cargo::core::compiler::custom_build::prepare
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::cli::main
+  19: cargo::main
+  20: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  21: std::rt::lang_start::<()>::{closure#0}
+  22: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  23: main
+  24: __tmainCRTStartup
+  25: mainCRTStartup
+  26: <unknown>
+  27: <unknown>
+   0.262874600s  INFO prepare_target{force=false package_id=flate2 v1.1.9 target="flate2"}: cargo::core::compiler::fingerprint: fingerprint error for flate2 v1.1.9/Check { test: false }/TargetInner { ..: lib_target("flate2", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\flate2-1.1.9\\src\\lib.rs", Edition2018) }
+   0.262888500s  INFO prepare_target{force=false package_id=flate2 v1.1.9 target="flate2"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\flate2-e7efabe08fb22c19\lib-flate2`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::cli::main
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  20: main
+  21: __tmainCRTStartup
+  22: mainCRTStartup
+  23: <unknown>
+  24: <unknown>
+   0.263351400s  INFO prepare_target{force=false package_id=tiff v0.9.1 target="tiff"}: cargo::core::compiler::fingerprint: fingerprint error for tiff v0.9.1/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("tiff", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\tiff-0.9.1\\src\\lib.rs", Edition2021) }
+   0.263371900s  INFO prepare_target{force=false package_id=tiff v0.9.1 target="tiff"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\tiff-7e5d3aa165455b5c\lib-tiff`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::cli::main
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  19: main
+  20: __tmainCRTStartup
+  21: mainCRTStartup
+  22: <unknown>
+  23: <unknown>
+   0.263722500s  INFO prepare_target{force=false package_id=rustorch-vision v0.1.0 (E:\RusTorch\rustorch-vision) target="rustorch_vision"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-vision v0.1.0 (E:\RusTorch\rustorch-vision)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("rustorch_vision", ["lib"], "E:\\RusTorch\\rustorch-vision\\src\\lib.rs", Edition2021) }
+   0.263738200s  INFO prepare_target{force=false package_id=rustorch-vision v0.1.0 (E:\RusTorch\rustorch-vision) target="rustorch_vision"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-vision-fddd4d1ccaca4d86\test-lib-rustorch_vision`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.264879700s  INFO prepare_target{force=false package_id=rustorch-wasm v0.1.0 (E:\RusTorch\rustorch-wasm) target="rustorch_wasm"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-wasm v0.1.0 (E:\RusTorch\rustorch-wasm)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rustorch_wasm", ["cdylib", "rlib"], "E:\\RusTorch\\rustorch-wasm\\src\\lib.rs", Edition2021) }
+   0.264899000s  INFO prepare_target{force=false package_id=rustorch-wasm v0.1.0 (E:\RusTorch\rustorch-wasm) target="rustorch_wasm"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-wasm-db109a53187f5db3\lib-rustorch_wasm`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   0.265312300s  INFO prepare_target{force=false package_id=wasm-bindgen v0.2.114 target="wasm_bindgen"}: cargo::core::compiler::fingerprint: fingerprint error for wasm-bindgen v0.2.114/Check { test: false }/TargetInner { tested: false, ..: lib_target("wasm_bindgen", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wasm-bindgen-0.2.114\\src\\lib.rs", Edition2021) }
+   0.265331400s  INFO prepare_target{force=false package_id=wasm-bindgen v0.2.114 target="wasm_bindgen"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\wasm-bindgen-2d5d70cc5f543a3b\lib-wasm_bindgen`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::cli::main
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  18: main
+  19: __tmainCRTStartup
+  20: mainCRTStartup
+  21: <unknown>
+  22: <unknown>
+   0.266046400s  INFO prepare_target{force=false package_id=wasm-bindgen v0.2.114 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for wasm-bindgen v0.2.114/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wasm-bindgen-0.2.114\\build.rs", Edition2021) }
+   0.266064500s  INFO prepare_target{force=false package_id=wasm-bindgen v0.2.114 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\wasm-bindgen-38cfcec611af5c1e\run-build-script-build-script-build`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::custom_build::build_work
+   6: cargo::core::compiler::custom_build::prepare
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::cli::main
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  21: main
+  22: __tmainCRTStartup
+  23: mainCRTStartup
+  24: <unknown>
+  25: <unknown>
+   0.266205900s  INFO prepare_target{force=false package_id=wasm-bindgen v0.2.114 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for wasm-bindgen v0.2.114/Build/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wasm-bindgen-0.2.114\\build.rs", Edition2021) }
+   0.266217300s  INFO prepare_target{force=false package_id=wasm-bindgen v0.2.114 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\wasm-bindgen-23909bd8f7495a01\build-script-build-script-build`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::cli::main
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  20: main
+  21: __tmainCRTStartup
+  22: mainCRTStartup
+  23: <unknown>
+  24: <unknown>
+   0.266499400s  INFO prepare_target{force=false package_id=rustversion v1.0.22 target="rustversion"}: cargo::core::compiler::fingerprint: fingerprint error for rustversion v1.0.22/Build/TargetInner { for_host: true, proc_macro: true, ..: lib_target("rustversion", ["proc-macro"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\rustversion-1.0.22\\src\\lib.rs", Edition2018) }
+   0.266514400s  INFO prepare_target{force=false package_id=rustversion v1.0.22 target="rustversion"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustversion-da7d272521c243cf\lib-rustversion`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::cli::main
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  21: main
+  22: __tmainCRTStartup
+  23: mainCRTStartup
+  24: <unknown>
+  25: <unknown>
+   0.267073000s  INFO prepare_target{force=false package_id=rustversion v1.0.22 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for rustversion v1.0.22/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\rustversion-1.0.22\\build\\build.rs", Edition2018) }
+   0.267089100s  INFO prepare_target{force=false package_id=rustversion v1.0.22 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustversion-d40dfda7dcc20e88\run-build-script-build-script-build`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::custom_build::build_work
+   6: cargo::core::compiler::custom_build::prepare
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: cargo::core::compiler::compile
+  13: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  14: cargo::ops::cargo_compile::compile_ws
+  15: cargo::ops::cargo_compile::compile_with_exec
+  16: cargo::ops::cargo_compile::compile
+  17: cargo::commands::check::exec
+  18: <cargo::cli::Exec>::exec
+  19: cargo::cli::main
+  20: cargo::main
+  21: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  22: std::rt::lang_start::<()>::{closure#0}
+  23: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  24: main
+  25: __tmainCRTStartup
+  26: mainCRTStartup
+  27: <unknown>
+  28: <unknown>
+   0.267534300s  INFO prepare_target{force=false package_id=wasm-bindgen-shared v0.2.114 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for wasm-bindgen-shared v0.2.114/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wasm-bindgen-shared-0.2.114\\build.rs", Edition2021) }
+   0.267548700s  INFO prepare_target{force=false package_id=wasm-bindgen-shared v0.2.114 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\wasm-bindgen-shared-1deb319a096e720e\run-build-script-build-script-build`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::custom_build::build_work
+   6: cargo::core::compiler::custom_build::prepare
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::cli::main
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  22: main
+  23: __tmainCRTStartup
+  24: mainCRTStartup
+  25: <unknown>
+  26: <unknown>
+   0.267773700s  INFO prepare_target{force=false package_id=wasm-bindgen-macro v0.2.114 target="wasm_bindgen_macro"}: cargo::core::compiler::fingerprint: fingerprint error for wasm-bindgen-macro v0.2.114/Build/TargetInner { for_host: true, proc_macro: true, ..: lib_target("wasm_bindgen_macro", ["proc-macro"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wasm-bindgen-macro-0.2.114\\src\\lib.rs", Edition2021) }
+   0.267787300s  INFO prepare_target{force=false package_id=wasm-bindgen-macro v0.2.114 target="wasm_bindgen_macro"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\wasm-bindgen-macro-c29f417582dfc50f\lib-wasm_bindgen_macro`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::cli::main
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  19: main
+  20: __tmainCRTStartup
+  21: mainCRTStartup
+  22: <unknown>
+  23: <unknown>
+   0.268130700s  INFO prepare_target{force=false package_id=wasm-bindgen-macro-support v0.2.114 target="wasm_bindgen_macro_support"}: cargo::core::compiler::fingerprint: fingerprint error for wasm-bindgen-macro-support v0.2.114/Build/TargetInner { ..: lib_target("wasm_bindgen_macro_support", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wasm-bindgen-macro-support-0.2.114\\src\\lib.rs", Edition2021) }
+   0.268148700s  INFO prepare_target{force=false package_id=wasm-bindgen-macro-support v0.2.114 target="wasm_bindgen_macro_support"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\wasm-bindgen-macro-support-827454f5d14a2d2c\lib-wasm_bindgen_macro_support`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::cli::main
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  20: main
+  21: __tmainCRTStartup
+  22: mainCRTStartup
+  23: <unknown>
+  24: <unknown>
+   0.268555700s  INFO prepare_target{force=false package_id=wasm-bindgen-shared v0.2.114 target="wasm_bindgen_shared"}: cargo::core::compiler::fingerprint: fingerprint error for wasm-bindgen-shared v0.2.114/Build/TargetInner { ..: lib_target("wasm_bindgen_shared", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wasm-bindgen-shared-0.2.114\\src\\lib.rs", Edition2021) }
+   0.268571400s  INFO prepare_target{force=false package_id=wasm-bindgen-shared v0.2.114 target="wasm_bindgen_shared"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\wasm-bindgen-shared-cfbcfce8f07918df\lib-wasm_bindgen_shared`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::cli::main
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  21: main
+  22: __tmainCRTStartup
+  23: mainCRTStartup
+  24: <unknown>
+  25: <unknown>
+   0.268874700s  INFO prepare_target{force=false package_id=wasm-bindgen-shared v0.2.114 target="wasm_bindgen_shared"}: cargo::core::compiler::fingerprint: fingerprint error for wasm-bindgen-shared v0.2.114/Check { test: false }/TargetInner { ..: lib_target("wasm_bindgen_shared", ["lib"], "C:\\Users\\25919\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wasm-bindgen-shared-0.2.114\\src\\lib.rs", Edition2021) }
+   0.268889500s  INFO prepare_target{force=false package_id=wasm-bindgen-shared v0.2.114 target="wasm_bindgen_shared"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\wasm-bindgen-shared-ba96b5613ae5a217\lib-wasm_bindgen_shared`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::cli::main
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  19: main
+  20: __tmainCRTStartup
+  21: mainCRTStartup
+  22: <unknown>
+  23: <unknown>
+   0.269289800s  INFO prepare_target{force=false package_id=rustorch-wasm v0.1.0 (E:\RusTorch\rustorch-wasm) target="rustorch_wasm"}: cargo::core::compiler::fingerprint: fingerprint error for rustorch-wasm v0.1.0 (E:\RusTorch\rustorch-wasm)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("rustorch_wasm", ["cdylib", "rlib"], "E:\\RusTorch\\rustorch-wasm\\src\\lib.rs", Edition2021) }
+   0.269307500s  INFO prepare_target{force=false package_id=rustorch-wasm v0.1.0 (E:\RusTorch\rustorch-wasm) target="rustorch_wasm"}: cargo::core::compiler::fingerprint:     err: failed to read `E:\RusTorch\target\debug\.fingerprint\rustorch-wasm-4454a064b45daaef\test-lib-rustorch_wasm`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::prepare_target
+   5: cargo::core::compiler::compile
+   6: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   7: cargo::ops::cargo_compile::compile_ws
+   8: cargo::ops::cargo_compile::compile_with_exec
+   9: cargo::ops::cargo_compile::compile
+  10: cargo::commands::check::exec
+  11: <cargo::cli::Exec>::exec
+  12: cargo::cli::main
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+             at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library\core\src\ops/function.rs:287:21
+  17: main
+  18: __tmainCRTStartup
+  19: mainCRTStartup
+  20: <unknown>
+  21: <unknown>
+   Compiling thiserror v1.0.69
+   Compiling serde_core v1.0.228
+   Compiling wasm-bindgen-shared v0.2.114
+   Compiling crc32fast v1.5.0
+error: failed to run custom build command for `thiserror v1.0.69`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  could not execute process `E:\RusTorch\target\debug\build\thiserror-867d55e2a9caa6ad\build-script-build` (never executed)
+
+Caused by:
+  %1 不是有效的 Win32 应用程序。 (os error 193)
+warning: build failed, waiting for other jobs to finish...
+   Compiling rustversion v1.0.22
+error: failed to run custom build command for `serde_core v1.0.228`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  could not execute process `E:\RusTorch\target\debug\build\serde_core-98e80996d69ad3aa\build-script-build` (never executed)
+
+Caused by:
+  %1 不是有效的 Win32 应用程序。 (os error 193)
+error: failed to run custom build command for `crc32fast v1.5.0`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  could not execute process `E:\RusTorch\target\debug\build\crc32fast-f8d59b5d886e8d00\build-script-build` (never executed)
+
+Caused by:
+  %1 不是有效的 Win32 应用程序。 (os error 193)
+   Compiling cudarc v0.9.15
+error: failed to run custom build command for `wasm-bindgen-shared v0.2.114`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  could not execute process `E:\RusTorch\target\debug\build\wasm-bindgen-shared-c36d2725b4aa5485\build-script-build` (never executed)
+
+Caused by:
+  %1 不是有效的 Win32 应用程序。 (os error 193)
+error: failed to run custom build command for `rustversion v1.0.22`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  could not execute process `E:\RusTorch\target\debug\build\rustversion-0b7fc1316eb022f2\build-script-build` (never executed)
+
+Caused by:
+  %1 不是有效的 Win32 应用程序。 (os error 193)
+    Checking zerocopy v0.8.40
+error: failed to run custom build command for `cudarc v0.9.15`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  could not execute process `E:\RusTorch\target\debug\build\cudarc-0d6eb4f1cf1e364e\build-script-build` (never executed)
+
+Caused by:
+  %1 不是有效的 Win32 应用程序。 (os error 193)
+error: could not compile `zerocopy` (lib) due to 123 previous errors

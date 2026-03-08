@@ -1,0 +1,12 @@
+[package]
+name = "rustorch-vision"
+version = "0.1.0"
+edition = "2021"
+authors = ["Trae AI <trae@example.com>"]
+description = "Computer vision models and utilities for RusTorch"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+rustorch-core = { path = "../rustorch-core", version = "0.1.0" }
+rustorch-nn = { path = "../rustorch-nn", version = "0.1.0" }
+image = "0.24" # For image loading

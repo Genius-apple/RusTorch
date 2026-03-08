@@ -1,0 +1,11 @@
+[package]
+name = "rustorch-metal"
+version = "0.1.0"
+edition = "2021"
+authors = ["Trae AI <trae@example.com>"]
+description = "Metal backend for RusTorch (macOS)"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+rustorch-core = { path = "../rustorch-core", version = "0.1.0" }
+# metal = "0.27" # Uncomment when on macOS

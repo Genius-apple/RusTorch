@@ -1,0 +1,12 @@
+[workspace]
+members = [
+    "rustorch-core",
+    "rustorch-nn",
+    "rustorch-cuda", "rustorch-vision", "rustorch-text", "rustorch-metal", "rustorch-wasm",
+    # "rustorch-vision",
+    # "rustorch-text",
+    # "rustorch-cuda",
+    # "rustorch-metal",
+    # "rustorch-wasm",
+]
+resolver = "2"
