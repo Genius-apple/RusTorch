@@ -1,5 +1,5 @@
 use rustorch_core::{Tensor, Storage};
-use vulkano::device::{Device, DeviceExtensions, Queue, DeviceCreateInfo, QueueCreateInfo};
+use vulkano::device::{Device, Queue, DeviceCreateInfo, QueueCreateInfo, QueueFlags};
 use vulkano::instance::{Instance, InstanceCreateInfo, InstanceExtensions};
 use vulkano::memory::allocator::{StandardMemoryAllocator, AllocationCreateInfo, MemoryTypeFilter};
 use vulkano::buffer::{Buffer, BufferCreateInfo, BufferUsage};
@@ -40,7 +40,7 @@ impl VulkanContext {
         let queue_family_index = physical_device
             .queue_family_properties()
             .iter()
-            .position(|q| q.queue_flags.compute)
+            .position(|q| q.queue_flags.intersects(QueueFlags::COMPUTE))
             .context("No compute queue family found")? as u32;
 
         let (device, mut queues) = Device::new(
@@ -82,7 +82,7 @@ impl VulkanContext {
             data.iter().cloned(),
         ).context("Failed to create buffer")?;
 
-        let storage = Storage::new_vulkan(buffer, 0);
+        let storage = Storage::new_vulkan(Arc::new(buffer), 0);
         Ok(Tensor::new_with_storage(storage, shape))
     }
 }
