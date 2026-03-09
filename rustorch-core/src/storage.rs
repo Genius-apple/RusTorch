@@ -124,6 +124,11 @@ impl Storage {
             #[cfg(feature = "vulkan_backend")]
             StorageImpl::Vulkan(buf) => buf.len() as usize,
         }
+    }#[cfg(feature = "wgpu_backend")]
+            StorageImpl::Wgpu(_, size) => *size,
+            #[cfg(feature = "vulkan_backend")]
+            StorageImpl::Vulkan(buf) => buf.len() as usize,
+        }
     }
 
     pub fn is_empty(&self) -> bool {
@@ -185,6 +190,14 @@ impl fmt::Debug for Storage {
             #[cfg(not(feature = "cuda"))]
             StorageImpl::CudaStub => {
                 write!(f, "CudaStorageStub({:?})", self.device)
+            }
+            #[cfg(feature = "wgpu_backend")]
+            StorageImpl::Wgpu(_, size) => {
+                write!(f, "WgpuStorage({:?}, size={})", self.device, size)
+            }
+            #[cfg(feature = "vulkan_backend")]
+            StorageImpl::Vulkan(buf) => {
+                write!(f, "VulkanStorage({:?}, size={})", self.device, buf.len())
             }
         }
     }

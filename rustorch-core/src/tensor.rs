@@ -134,10 +134,6 @@ impl Tensor {
         self.inner.requires_grad
     }
 
-    pub fn shape(&self) -> &[usize] {
-        &self.inner.shape
-    }
-
     pub fn data(&self) -> RwLockReadGuard<'_, Vec<f32>> {
         self.inner.storage.data()
     }
@@ -340,10 +336,6 @@ impl Tensor {
         for x in guard.iter_mut() {
             *x = value;
         }
-    }
-
-    pub fn strides(&self) -> &[usize] {
-        &self.inner.strides
     }
 
     pub fn reshape(&self, new_shape: &[usize]) -> Tensor {
