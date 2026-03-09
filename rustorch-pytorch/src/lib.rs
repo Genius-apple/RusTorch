@@ -1,8 +1,7 @@
-use rustorch_core::{Tensor, Storage};
+use rustorch_core::Tensor;
 use tch::{self, Kind, Device as TchDevice};
-use anyhow::{Result, Context};
+use anyhow::Result;
 use std::path::Path;
-use std::borrow::Borrow;
 
 pub struct PyTorchAdapter;
 
@@ -31,10 +30,10 @@ impl PyTorchAdapter {
             // Cast to float if not
             // For now, we only support f32 in RusTorch
             let float_tensor = cpu_tensor.to_kind(Kind::Float);
-            let data: Vec<f32> = Vec::<f32>::from(&float_tensor);
+            let data: Vec<f32> = float_tensor.into();
             Ok(Tensor::new(&data, &size))
         } else {
-            let data: Vec<f32> = Vec::<f32>::from(&cpu_tensor);
+            let data: Vec<f32> = cpu_tensor.into();
             Ok(Tensor::new(&data, &size))
         }
     }
@@ -101,21 +100,6 @@ pub mod ops {
         let tb = PyTorchAdapter::to_torch(b);
         let res = ta.matmul(&tb);
         PyTorchAdapter::from_torch(&res)
-    }
-}
-
-// Implement From traits for convenience
-impl From<&Tensor> for tch::Tensor {
-    fn from(tensor: &Tensor) -> Self {
-        PyTorchAdapter::to_torch(tensor)
-    }
-}
-
-impl TryFrom<&tch::Tensor> for Tensor {
-    type Error = anyhow::Error;
-
-    fn try_from(tensor: &tch::Tensor) -> Result<Self> {
-        PyTorchAdapter::from_torch(tensor)
     }
 }
 
