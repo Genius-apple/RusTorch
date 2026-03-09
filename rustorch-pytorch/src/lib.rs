@@ -30,10 +30,14 @@ impl PyTorchAdapter {
             // Cast to float if not
             // For now, we only support f32 in RusTorch
             let float_tensor = cpu_tensor.to_kind(Kind::Float);
-            let data: Vec<f32> = Vec::<f32>::from(float_tensor);
+            let numel = float_tensor.numel();
+            let mut data = vec![0.0f32; numel as usize];
+            float_tensor.copy_data(&mut data, numel as usize);
             Ok(Tensor::new(&data, &size))
         } else {
-            let data: Vec<f32> = Vec::<f32>::from(cpu_tensor);
+            let numel = cpu_tensor.numel();
+            let mut data = vec![0.0f32; numel as usize];
+            cpu_tensor.copy_data(&mut data, numel as usize);
             Ok(Tensor::new(&data, &size))
         }
     }
