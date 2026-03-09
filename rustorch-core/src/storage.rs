@@ -3,10 +3,10 @@ use std::sync::{Arc, RwLock, RwLockReadGuard, RwLockWriteGuard};
 
 #[cfg(feature = "cuda")]
 use cudarc::driver::CudaSlice;
-#[cfg(feature = "wgpu_backend")]
-use wgpu;
 #[cfg(feature = "vulkan_backend")]
 use vulkano::buffer::Subbuffer;
+#[cfg(feature = "wgpu_backend")]
+use wgpu;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Device {

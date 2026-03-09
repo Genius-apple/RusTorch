@@ -1,13 +1,13 @@
-use rustorch_core::{Tensor, Storage};
-use vulkano::device::{Device, Queue, DeviceCreateInfo, QueueCreateInfo, QueueFlags};
-use vulkano::instance::{Instance, InstanceCreateInfo, InstanceExtensions};
-use vulkano::memory::allocator::{StandardMemoryAllocator, AllocationCreateInfo, MemoryTypeFilter};
+use anyhow::{Context, Result};
+use rustorch_core::{Storage, Tensor};
+use std::sync::Arc;
 use vulkano::buffer::{Buffer, BufferCreateInfo, BufferUsage};
 use vulkano::command_buffer::allocator::StandardCommandBufferAllocator;
 use vulkano::descriptor_set::allocator::StandardDescriptorSetAllocator;
+use vulkano::device::{Device, DeviceCreateInfo, Queue, QueueCreateInfo, QueueFlags};
+use vulkano::instance::{Instance, InstanceCreateInfo, InstanceExtensions};
+use vulkano::memory::allocator::{AllocationCreateInfo, MemoryTypeFilter, StandardMemoryAllocator};
 use vulkano::VulkanLibrary;
-use std::sync::Arc;
-use anyhow::{Result, Context};
 
 pub struct VulkanContext {
     pub device: Arc<Device>,
@@ -29,7 +29,8 @@ impl VulkanContext {
                 },
                 ..Default::default()
             },
-        ).context("Failed to create instance")?;
+        )
+        .context("Failed to create instance")?;
 
         let physical_device = instance
             .enumerate_physical_devices()
@@ -52,12 +53,19 @@ impl VulkanContext {
                 }],
                 ..Default::default()
             },
-        ).context("Failed to create device")?;
+        )
+        .context("Failed to create device")?;
 
         let queue = queues.next().unwrap();
         let memory_allocator = Arc::new(StandardMemoryAllocator::new_default(device.clone()));
-        let command_buffer_allocator = Arc::new(StandardCommandBufferAllocator::new(device.clone(), Default::default()));
-        let descriptor_set_allocator = Arc::new(StandardDescriptorSetAllocator::new(device.clone(), Default::default()));
+        let command_buffer_allocator = Arc::new(StandardCommandBufferAllocator::new(
+            device.clone(),
+            Default::default(),
+        ));
+        let descriptor_set_allocator = Arc::new(StandardDescriptorSetAllocator::new(
+            device.clone(),
+            Default::default(),
+        ));
 
         Ok(Self {
             device,
@@ -76,11 +84,13 @@ impl VulkanContext {
                 ..Default::default()
             },
             AllocationCreateInfo {
-                memory_type_filter: MemoryTypeFilter::PREFER_DEVICE | MemoryTypeFilter::HOST_SEQUENTIAL_WRITE,
+                memory_type_filter: MemoryTypeFilter::PREFER_DEVICE
+                    | MemoryTypeFilter::HOST_SEQUENTIAL_WRITE,
                 ..Default::default()
             },
             data.iter().cloned(),
-        ).context("Failed to create buffer")?;
+        )
+        .context("Failed to create buffer")?;
 
         let storage = Storage::new_vulkan(Arc::new(buffer), 0);
         Ok(Tensor::new_with_storage(storage, shape))
