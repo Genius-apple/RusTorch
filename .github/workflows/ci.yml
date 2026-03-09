@@ -15,6 +15,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Install LibTorch
+      run: |
+        curl -L https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.0.0%2Bcpu.zip -o libtorch.zip
+        unzip libtorch.zip
+        echo "LIBTORCH=$(pwd)/libtorch" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=$(pwd)/libtorch/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+
     - name: Build
       run: cargo build --verbose --workspace
     - name: Run tests
