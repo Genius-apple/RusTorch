@@ -10,7 +10,7 @@ keywords = ["neural-network", "deep-learning", "layer", "module", "ai"]
 categories = ["science", "computer-vision"]
 
 [dependencies]
-rustorch-core = { path = "../rustorch-core", version = "0.1.0" }
+rustorch-core = { path = "../rustorch-core", version = "0.1.1" }
 rand = "0.8"
 rayon = "1.11.0"
 serde = { version = "1.0", features = ["derive"], optional = true }

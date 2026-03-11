@@ -21,9 +21,37 @@
 
 ---
 
-## 📦 Ecosystem
+## 📦 Ecosystem & Architecture
 
-RusTorch is a modular workspace designed for scalability:
+RusTorch is a modular workspace designed for scalability. We adopt a "Core + Plugins" architecture to ensure lightweight runtime and maximum extensibility.
+
+### 🧩 Project Structure
+
+```mermaid
+mindmap
+  root((RusTorch))
+    Core(rustorch-core)
+      Tensor Engine
+      Autograd
+      JIT Compiler
+    NN(rustorch-nn)
+      Layers
+      Optimizers
+      Loss Functions
+    Backends
+      CUDA(rustorch-cuda)
+      WGPU(rustorch-wgpu)
+      Vulkan(rustorch-vulkan)
+      Metal(rustorch-metal)
+    Ecosystem
+      Vision(rustorch-vision)
+      Text(rustorch-text)
+      Audio(rustorch-audio)
+    Interop
+      PyTorch(rustorch-pytorch)
+      ONNX(rustorch-onnx)
+      WASM(rustorch-wasm)
+```
 
 *   **`rustorch-core`**: The heart. N-dimensional Tensors, Autograd engine, and JIT compiler.
 *   **`rustorch-nn`**: Neural network building blocks (Conv2d, LSTM, Transformer), Loss functions, and Optimizers.
@@ -35,6 +63,17 @@ RusTorch is a modular workspace designed for scalability:
 *   **`rustorch-wgpu`**: 🌐 **NEW!** WebGPU backend for browser and cross-platform GPU acceleration.
 *   **`rustorch-vulkan`**: 🎮 **NEW!** Vulkan compute backend for high-performance graphics hardware.
 
+### ✅ Feature Matrix
+
+| Feature | RusTorch | PyTorch | TensorFlow |
+| :--- | :---: | :---: | :---: |
+| **Memory Safety** | 🛡️ **Guaranteed** | ❌ (C++) | ❌ (C++) |
+| **GIL-Free** | 🚀 **Yes** | ❌ No | ❌ No |
+| **WebGPU Support** | 🌐 **Native** | 🚧 Experimental | 🚧 Experimental |
+| **Browser Inference** | ✅ **WASM + WebGPU** | ❌ Heavy | ✅ TFLite |
+| **API Style** | 🔥 **Pythonic** | 🔥 Pythonic | 📉 Verbose |
+| **Deployment** | 📦 **Single Binary** | 🐍 Python Env | 🐍 Python Env |
+
 ---
 
 ## 🌐 Universal Architecture
@@ -43,19 +82,27 @@ RusTorch isn't just a library; it's a universal tensor compiler.
 
 ```mermaid
 graph TD
-    User[User Application] --> API[RusTorch API]
-    API --> Core[rustorch-core]
+    %% Styling
+    classDef core fill:#e85d04,stroke:#333,stroke-width:2px,color:white;
+    classDef backend fill:#8338ec,stroke:#333,stroke-width:2px,color:white;
+    classDef interop fill:#3a86ff,stroke:#333,stroke-width:2px,color:white;
+    classDef user fill:#fb5607,stroke:#333,stroke-width:2px,color:white;
+
+    User["👤 User Application"]:::user --> API["🔥 RusTorch API"]:::core
+    API --> Core["🧠 rustorch-core"]:::core
     
-    subgraph "Compute Backends"
-        Core --> CPU[Rayon CPU]
-        Core --> CUDA[CUDA (NVidia)]
-        Core --> WGPU[WebGPU (Browser/Cross-Platform)]
-        Core --> Vulkan[Vulkan (High-Performance Graphics)]
+    subgraph Compute_Backends ["⚙️ Compute Backends"]
+        direction TB
+        Core -.-> CPU["🖥️ Rayon CPU"]:::backend
+        Core -.-> CUDA["🚀 CUDA (NVidia)"]:::backend
+        Core -.-> WGPU["🌐 WebGPU (Browser)"]:::backend
+        Core -.-> Vulkan["🎮 Vulkan (Cross-Platform)"]:::backend
     end
     
-    subgraph "Interoperability"
-        PyTorch[PyTorch Ecosystem] <-->|rustorch-pytorch| Core
-        Model[.pth Models] <-->|Load/Save| Core
+    subgraph Interoperability ["🔌 Interoperability"]
+        direction TB
+        PyTorch["🔥 PyTorch Ecosystem"]:::interop <-->|rustorch-pytorch| Core
+        Model["💾 .pth Models"]:::interop <-->|Load/Save| Core
     end
 ```
 
@@ -93,10 +140,27 @@ Add RusTorch to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rus-torch = "0.1.0"
+rus-torch = "0.1.1"
 ```
 
 ### 🔥 Train a Model in 30 Seconds
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Data as 💿 Dataset
+    participant Model as 🧠 Model
+    participant Loss as 📉 Loss Fn
+    participant Optim as ⚙️ Optimizer
+
+    loop Training Epochs
+        Data->>Model: Forward(Batch)
+        Model->>Loss: Compute Loss(Pred, Target)
+        Loss-->>Model: Backward() (Compute Gradients)
+        Optim->>Model: Step() (Update Weights)
+        Optim->>Model: ZeroGrad()
+    end
+```
 
 ```rust
 use rus_torch::core::Tensor;

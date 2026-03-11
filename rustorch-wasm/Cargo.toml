@@ -1,6 +1,6 @@
 [package]
 name = "rustorch-wasm"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Trae AI <trae@example.com>"]
 description = "WebAssembly bindings for RusTorch"
@@ -13,6 +13,6 @@ categories = ["wasm"]
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-rustorch-core = { path = "../rustorch-core", version = "0.1.0" }
-rustorch-nn = { path = "../rustorch-nn", version = "0.1.0" }
+rustorch-core = { path = "../rustorch-core", version = "0.1.1" }
+rustorch-nn = { path = "../rustorch-nn", version = "0.1.1" }
 wasm-bindgen = "0.2"
