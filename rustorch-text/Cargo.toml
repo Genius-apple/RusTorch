@@ -1,6 +1,6 @@
 [package]
 name = "rustorch-text"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Trae AI <trae@example.com>"]
 description = "NLP utilities and datasets for RusTorch"
@@ -10,6 +10,6 @@ keywords = ["nlp", "text-processing", "deep-learning", "rustorch"]
 categories = ["science", "text-processing"]
 
 [dependencies]
-rustorch-core = { path = "../rustorch-core", version = "0.1.1" }
-rustorch-nn = { path = "../rustorch-nn", version = "0.1.1" }
+rustorch-core = { path = "../rustorch-core", version = "0.1.2" }
+rustorch-nn = { path = "../rustorch-nn", version = "0.1.2" }
 regex = "1.10"

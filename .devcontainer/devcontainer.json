@@ -1,0 +1,20 @@
+{
+  "name": "RusTorch Demo",
+  "image": "mcr.microsoft.com/devcontainers/rust:1-1-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    }
+  },
+  "forwardPorts": [
+    3003
+  ],
+  "portsAttributes": {
+    "3003": {
+      "label": "RusTorch Demo",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "python -m pip install --upgrade pip && python -m pip install torch --index-url https://download.pytorch.org/whl/cpu",
+  "postAttachCommand": "bash .devcontainer/start-demo.sh"
+}

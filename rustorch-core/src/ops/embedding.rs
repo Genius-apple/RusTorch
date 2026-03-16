@@ -32,10 +32,27 @@ impl BackwardOp for EmbeddingBackward {
             // We need to implement a "SparseAccumulate" or just create a dense Zero tensor and fill it.
             let mut weight_grad_data = vec![0.0; self.num_embeddings * self.embedding_dim];
 
+            #[cfg(feature = "wgpu_backend")]
+            let (grad, input) = {
+                let g = if grad.storage().device().is_wgpu() {
+                    grad.to_cpu()
+                } else {
+                    grad.clone()
+                };
+                let i = if self.input.storage().device().is_wgpu() {
+                    self.input.to_cpu()
+                } else {
+                    self.input.clone()
+                };
+                (g, i)
+            };
+            #[cfg(not(feature = "wgpu_backend"))]
+            let input = self.input.clone();
+
             let grad_guard = grad.data();
             let grad_data = &*grad_guard;
 
-            let input_guard = self.input.data(); // These are f32, need to cast to usize
+            let input_guard = input.data(); // These are f32, need to cast to usize
             let input_data = &*input_guard;
 
             // Check shapes
@@ -98,6 +115,23 @@ pub fn embedding(
     }
     let num_embeddings = weight_shape[0];
     let embedding_dim = weight_shape[1];
+
+    #[cfg(feature = "wgpu_backend")]
+    let (input, weight) = {
+        let i = if input.storage().device().is_wgpu() {
+            input.to_cpu()
+        } else {
+            input.clone()
+        };
+        let w = if weight.storage().device().is_wgpu() {
+            weight.to_cpu()
+        } else {
+            weight.clone()
+        };
+        (i, w)
+    };
+    #[cfg(not(feature = "wgpu_backend"))]
+    let (input, weight) = (input.clone(), weight.clone());
 
     let input_guard = input.data();
     let input_data = &*input_guard;

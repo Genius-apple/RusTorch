@@ -2,13 +2,28 @@
 members = [
     "rustorch-core",
     "rustorch-nn",
-    "rustorch-vision", "rustorch-text", "rustorch-wasm", "rus-torch", "rustorch-pytorch", "rustorch-wgpu", "rustorch-vulkan",
-    # "rustorch-cuda", # Requires CUDA Toolkit
-    # "rustorch-metal", # Requires macOS
-    # "rustorch-vision",
-    # "rustorch-text",
-    # "rustorch-cuda",
-    # "rustorch-metal",
-    # "rustorch-wasm",
+    "rustorch-vision", "rustorch-text", "rustorch-wasm", "rus-torch", "rustorch-pytorch", "rustorch-wgpu", "rustorch-vulkan", "demo_visual",
 ]
 resolver = "2"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = 0 # Reduce debug info to speed up linking
+split-debuginfo = "unpacked" # Faster linking on Windows
+incremental = true
+strip = "debuginfo" # Strip debug info to further speed up linking
+
+[profile.dev.package.rustorch-core]
+opt-level = 3
+
+[profile.dev.package.rustorch-nn]
+opt-level = 3
+
+[profile.dev.package.demo_visual]
+opt-level = 3

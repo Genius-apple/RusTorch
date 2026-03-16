@@ -1,6 +1,5 @@
 use anyhow::{Context, Result};
 use rustorch_core::{Storage, Tensor};
-use std::sync::Arc;
 use wgpu::util::DeviceExt;
 
 pub struct WgpuContext {
@@ -42,7 +41,7 @@ impl WgpuContext {
                     | wgpu::BufferUsages::COPY_SRC,
             });
 
-        let storage = Storage::new_wgpu(Arc::new(buffer), data.len(), 0);
+        let storage = Storage::new_wgpu(buffer, data.len(), 0);
         Tensor::new_with_storage(storage, shape)
     }
 
@@ -58,7 +57,7 @@ impl WgpuContext {
             mapped_at_creation: false,
         });
 
-        let storage = Storage::new_wgpu(Arc::new(buffer), size, 0);
+        let storage = Storage::new_wgpu(buffer, size, 0);
         Tensor::new_with_storage(storage, shape)
     }
 
@@ -201,7 +200,7 @@ impl WgpuContext {
 
         self.queue.submit(Some(encoder.finish()));
 
-        let storage = Storage::new_wgpu(Arc::new(output_buffer), size, 0);
+        let storage = Storage::new_wgpu(output_buffer, size, 0);
         Ok(Tensor::new_with_storage(storage, a.shape()))
     }
 }

@@ -1,8 +1,13 @@
 use crate::autograd::BackwardOp;
 use crate::storage::Storage;
 use crate::Tensor;
+use parking_lot::Mutex;
 use rayon::prelude::*;
-use std::sync::Arc;
+use std::collections::HashMap;
+use std::hint::black_box;
+use std::sync::{Arc, OnceLock};
+use std::time::Instant;
+use wide::f32x8;
 
 // --- BatchNorm2d ---
 
@@ -474,6 +479,137 @@ impl BackwardOp for LayerNormBackward {
     }
 }
 
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum CpuLayerNormStrategy {
+    Auto,
+    Profile,
+    Scalar,
+    Simd,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum LayerNormKernelChoice {
+    Scalar,
+    Simd,
+}
+
+#[derive(Clone, Copy)]
+struct CpuLayerNormConfig {
+    strategy: CpuLayerNormStrategy,
+    min_dim: usize,
+    profile_iters: usize,
+}
+
+fn parse_usize_env(key: &str, default: usize) -> usize {
+    std::env::var(key)
+        .ok()
+        .and_then(|s| s.parse::<usize>().ok())
+        .unwrap_or(default)
+}
+
+fn cpu_layernorm_config() -> CpuLayerNormConfig {
+    static CFG: OnceLock<CpuLayerNormConfig> = OnceLock::new();
+    *CFG.get_or_init(|| {
+        let strategy = match std::env::var("RUSTORCH_CPU_LAYERNORM_STRATEGY")
+            .unwrap_or_else(|_| "auto".to_string())
+            .to_ascii_lowercase()
+            .as_str()
+        {
+            "simd" => CpuLayerNormStrategy::Simd,
+            "scalar" => CpuLayerNormStrategy::Scalar,
+            "profile" => CpuLayerNormStrategy::Profile,
+            _ => CpuLayerNormStrategy::Auto,
+        };
+        CpuLayerNormConfig {
+            strategy,
+            min_dim: parse_usize_env("RUSTORCH_CPU_LAYERNORM_MIN_DIM", 256),
+            profile_iters: parse_usize_env("RUSTORCH_CPU_LAYERNORM_PROFILE_ITERS", 2),
+        }
+    })
+}
+
+fn layernorm_profile_cache() -> &'static Mutex<HashMap<usize, LayerNormKernelChoice>> {
+    static CACHE: OnceLock<Mutex<HashMap<usize, LayerNormKernelChoice>>> = OnceLock::new();
+    CACHE.get_or_init(|| Mutex::new(HashMap::new()))
+}
+
+fn row_sum_sq_scalar(row: &[f32]) -> (f32, f32) {
+    let mut s = 0.0f32;
+    let mut q = 0.0f32;
+    for &v in row {
+        s += v;
+        q += v * v;
+    }
+    (s, q)
+}
+
+fn row_sum_sq_simd(row: &[f32]) -> (f32, f32) {
+    let lanes = 8usize;
+    let vec_len = row.len() / lanes * lanes;
+    let mut s = f32x8::from([0.0; 8]);
+    let mut q = f32x8::from([0.0; 8]);
+    let mut i = 0usize;
+    while i < vec_len {
+        let mut a = [0.0f32; 8];
+        a.copy_from_slice(&row[i..i + lanes]);
+        let v = f32x8::from(a);
+        s += v;
+        q += v * v;
+        i += lanes;
+    }
+    let sa: [f32; 8] = s.into();
+    let qa: [f32; 8] = q.into();
+    let mut sum = sa.iter().sum::<f32>();
+    let mut sq = qa.iter().sum::<f32>();
+    while i < row.len() {
+        let v = row[i];
+        sum += v;
+        sq += v * v;
+        i += 1;
+    }
+    (sum, sq)
+}
+
+fn choose_layernorm_kernel(inner_dim: usize, sample_row: &[f32]) -> LayerNormKernelChoice {
+    let cfg = cpu_layernorm_config();
+    match cfg.strategy {
+        CpuLayerNormStrategy::Simd => LayerNormKernelChoice::Simd,
+        CpuLayerNormStrategy::Scalar => LayerNormKernelChoice::Scalar,
+        CpuLayerNormStrategy::Auto => {
+            if inner_dim >= cfg.min_dim {
+                LayerNormKernelChoice::Simd
+            } else {
+                LayerNormKernelChoice::Scalar
+            }
+        }
+        CpuLayerNormStrategy::Profile => {
+            if let Some(cached) = layernorm_profile_cache().lock().get(&inner_dim).copied() {
+                return cached;
+            }
+            let iters = cfg.profile_iters.max(1);
+            let mut scalar_ns = 0u128;
+            let mut simd_ns = 0u128;
+            for _ in 0..iters {
+                let t0 = Instant::now();
+                let s = row_sum_sq_scalar(sample_row);
+                scalar_ns += t0.elapsed().as_nanos();
+                black_box(s);
+                let t1 = Instant::now();
+                let v = row_sum_sq_simd(sample_row);
+                simd_ns += t1.elapsed().as_nanos();
+                black_box(v);
+            }
+            let choice = if simd_ns < scalar_ns {
+                LayerNormKernelChoice::Simd
+            } else {
+                LayerNormKernelChoice::Scalar
+            };
+            layernorm_profile_cache().lock().insert(inner_dim, choice);
+            choice
+        }
+    }
+}
+
 pub fn layer_norm(
     input: &Tensor,
     normalized_shape: &[usize],
@@ -507,8 +643,10 @@ pub fn layer_norm(
     let input_guard = input.data();
     let input_data = &*input_guard;
 
-    let weight_data = weight.map(|w| w.data());
-    let bias_data = bias.map(|b| b.data());
+    let weight_vec = weight.map(|w| w.data().to_vec());
+    let bias_vec = bias.map(|b| b.data().to_vec());
+    let weight_data = weight_vec.as_deref();
+    let bias_data = bias_vec.as_deref();
 
     let mut output_data = vec![0.0; input_data.len()];
     let mut means = vec![0.0; outer_dim];
@@ -518,17 +656,22 @@ pub fn layer_norm(
     // Parallelize over outer_dim
     // We need to return means/inv_stds, so maybe collect.
 
+    let sample_row = if outer_dim > 0 {
+        &input_data[0..inner_dim]
+    } else {
+        &[][..]
+    };
+    let kernel = choose_layernorm_kernel(inner_dim, sample_row);
+
     let stats: Vec<(f32, f32)> = (0..outer_dim)
         .into_par_iter()
         .map(|i| {
             let offset = i * inner_dim;
-            let mut sum = 0.0;
-            let mut sq_sum = 0.0;
-            for j in 0..inner_dim {
-                let val = input_data[offset + j];
-                sum += val;
-                sq_sum += val * val;
-            }
+            let row = &input_data[offset..offset + inner_dim];
+            let (sum, sq_sum) = match kernel {
+                LayerNormKernelChoice::Scalar => row_sum_sq_scalar(row),
+                LayerNormKernelChoice::Simd => row_sum_sq_simd(row),
+            };
             let m = sum / inner_dim as f32;
             let v = sq_sum / inner_dim as f32 - m * m;
             let inv_s = 1.0 / (v + eps).sqrt();
@@ -539,24 +682,27 @@ pub fn layer_norm(
     for (i, (m, inv_s)) in stats.iter().enumerate() {
         means[i] = *m;
         inv_stds[i] = *inv_s;
-
-        let offset = i * inner_dim;
-        for j in 0..inner_dim {
-            let val = input_data[offset + j];
-            let x_hat = (val - m) * inv_s;
-            let g = if let Some(wd) = &weight_data {
-                wd[j]
-            } else {
-                1.0
-            };
-            let b = if let Some(bd) = &bias_data {
-                bd[j]
-            } else {
-                0.0
-            };
-            output_data[offset + j] = x_hat * g + b;
-        }
     }
+
+    output_data
+        .par_chunks_mut(inner_dim)
+        .enumerate()
+        .for_each(|(i, row_out)| {
+            let m = means[i];
+            let inv_s = inv_stds[i];
+            let offset = i * inner_dim;
+            for j in 0..inner_dim {
+                let val = input_data[offset + j];
+                let x_hat = (val - m) * inv_s;
+                let g = if let Some(wd) = weight_data {
+                    wd[j]
+                } else {
+                    1.0
+                };
+                let b = if let Some(bd) = bias_data { bd[j] } else { 0.0 };
+                row_out[j] = x_hat * g + b;
+            }
+        });
 
     let storage = Storage::new(output_data);
     let mut tensor = Tensor::new_with_storage(storage, shape);

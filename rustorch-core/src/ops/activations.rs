@@ -6,6 +6,41 @@ use std::sync::Arc;
 
 // --- Sigmoid ---
 pub fn sigmoid(input: &Tensor) -> Tensor {
+    #[cfg(feature = "wgpu_backend")]
+    {
+        if let Some(input_buf) = input.storage().wgpu_buffer() {
+            if !input.is_contiguous() {
+                return sigmoid(&input.contiguous());
+            }
+
+            use crate::backend::wgpu::{elementwise_wgpu_buffer, ElementwiseOp};
+            let size: usize = input.shape().iter().product();
+            let output_buf = elementwise_wgpu_buffer(
+                input_buf,
+                input.shape(),
+                input.strides(),
+                None,
+                input.shape(),
+                ElementwiseOp::Sigmoid,
+                None,
+            );
+            let storage = Storage::new_wgpu(output_buf, size, 0);
+            let mut tensor = Tensor::new_with_storage(storage, input.shape());
+
+            if input.requires_grad() {
+                tensor.set_requires_grad_mut(true);
+                tensor.set_op(Arc::new(SigmoidBackward {
+                    input: input.clone(),
+                }));
+            }
+            return tensor;
+        }
+    }
+
+    if !input.is_contiguous() {
+        return sigmoid(&input.contiguous());
+    }
+
     let input_guard = input.data();
     let input_data = &*input_guard;
 
@@ -19,22 +54,18 @@ pub fn sigmoid(input: &Tensor) -> Tensor {
 
     if input.requires_grad() {
         tensor.set_requires_grad_mut(true);
-        // SigmoidBackward
-        // dy/dx = y * (1 - y)
-        // We need to store output (y) for efficient backward
-        // But backward op takes input usually.
-        // Let's store output in op.
-
-        // Wait, creating tensor inside backward?
-        // Let's use input for backward: sig(x) * (1 - sig(x))
-        // Or store output. Output is `tensor`.
-        // We can't easily store `tensor` in its own op because of circular ref if op is Arc.
-        // Op is inside tensor. So tensor -> op -> tensor (cycle).
-        // Standard way: store input, recompute or store weak ref?
-        // Or just recompute sigmoid(input).
+        // We store input to update its gradient.
+        // We also store output to avoid recomputing sigmoid(x) during backward.
+        // But we need to be careful about reference cycles if we store output (which is `tensor` itself).
+        // Since `tensor` owns `op`, and `op` owns `output` (tensor), we have a cycle.
+        // So we CANNOT store `tensor` (output) in `op`.
+        // We must recompute or store input.
+        // Recomputing is safer for memory management in this simple Arc-based graph.
+        // To optimize, we would need Weak refs or a different graph structure (e.g. tape-based).
+        // Sticking to recompute for now but fixing logic.
 
         tensor.set_op(Arc::new(SigmoidBackward {
-            input: input.clone(), // Store input
+            input: input.clone(),
         }));
     }
 
@@ -49,11 +80,90 @@ pub struct SigmoidBackward {
 impl BackwardOp for SigmoidBackward {
     fn backward(&self, grad: &Tensor) {
         if self.input.requires_grad() {
+            // Check for GPU
+            #[cfg(feature = "wgpu_backend")]
+            {
+                if let Some(_) = self.input.storage().wgpu_buffer() {
+                    // We need output(sigmoid(input))
+                    // Recompute sigmoid
+                    let s = sigmoid(&self.input);
+                    let s_buf = s
+                        .storage()
+                        .wgpu_buffer()
+                        .expect("Sigmoid output should be on GPU");
+
+                    // grad might not be contiguous or on GPU if not handled properly upstream
+                    let grad_contig = if !grad.is_contiguous() {
+                        grad.contiguous()
+                    } else {
+                        grad.clone()
+                    };
+                    let grad_buf = grad_contig
+                        .storage()
+                        .wgpu_buffer()
+                        .expect("Grad should be on GPU");
+
+                    use crate::backend::wgpu::{elementwise_wgpu_buffer, ElementwiseOp};
+                    let size = grad.shape().iter().product();
+                    // SigmoidBackward takes output (s) and grad
+                    let output_buf = elementwise_wgpu_buffer(
+                        s_buf,
+                        s.shape(),
+                        s.strides(),
+                        Some((grad_buf, grad.shape(), grad.strides())),
+                        grad.shape(),
+                        ElementwiseOp::SigmoidBackward,
+                        None,
+                    );
+                    let storage = Storage::new_wgpu(output_buf, size, 0);
+                    let grad_input = Tensor::new_with_storage(storage, grad.shape());
+
+                    self.input.accumulate_grad(&grad_input);
+                    self.input.backward_step();
+                    return;
+                }
+            }
+
             // grad_input = grad * sigmoid(input) * (1 - sigmoid(input))
-            let s = sigmoid(&self.input);
-            let one = Tensor::ones(s.shape());
-            let ds = crate::ops::mul(&s, &crate::ops::sub(&one, &s));
-            let grad_input = crate::ops::mul(grad, &ds);
+            // Recompute sigmoid
+
+            // Fix: Ensure CPU fallback
+            #[cfg(feature = "wgpu_backend")]
+            let (input, grad) = {
+                let i = if self.input.storage().device().is_wgpu() {
+                    self.input.to_cpu()
+                } else {
+                    self.input.clone()
+                };
+                let g = if grad.storage().device().is_wgpu() {
+                    grad.to_cpu()
+                } else {
+                    grad.clone()
+                };
+                (i, g)
+            };
+            #[cfg(not(feature = "wgpu_backend"))]
+            let (input, grad) = (self.input.clone(), grad.clone());
+
+            let s = sigmoid(&input);
+
+            // dS = s * (1 - s)
+            // This creates intermediates.
+            // Optimization: fused kernel for dS * grad
+
+            // Manual fused implementation for speed
+            let s_guard = s.data();
+            let grad_guard = grad.data();
+            let s_data = &*s_guard;
+            let grad_data = &*grad_guard;
+
+            let grad_input_data: Vec<f32> = s_data
+                .par_iter()
+                .zip(grad_data.par_iter())
+                .map(|(s_val, g_val)| g_val * s_val * (1.0 - s_val))
+                .collect();
+
+            let grad_input = Tensor::new_with_storage(Storage::new(grad_input_data), grad.shape());
 
             self.input.accumulate_grad(&grad_input);
             self.input.backward_step();
@@ -63,6 +173,41 @@ impl BackwardOp for SigmoidBackward {
 
 // --- Tanh ---
 pub fn tanh(input: &Tensor) -> Tensor {
+    #[cfg(feature = "wgpu_backend")]
+    {
+        if let Some(input_buf) = input.storage().wgpu_buffer() {
+            if !input.is_contiguous() {
+                return tanh(&input.contiguous());
+            }
+
+            use crate::backend::wgpu::{elementwise_wgpu_buffer, ElementwiseOp};
+            let size: usize = input.shape().iter().product();
+            let output_buf = elementwise_wgpu_buffer(
+                input_buf,
+                input.shape(),
+                input.strides(),
+                None,
+                input.shape(),
+                ElementwiseOp::Tanh,
+                None,
+            );
+            let storage = Storage::new_wgpu(output_buf, size, 0);
+            let mut tensor = Tensor::new_with_storage(storage, input.shape());
+
+            if input.requires_grad() {
+                tensor.set_requires_grad_mut(true);
+                tensor.set_op(Arc::new(TanhBackward {
+                    input: input.clone(),
+                }));
+            }
+            return tensor;
+        }
+    }
+
+    if !input.is_contiguous() {
+        return tanh(&input.contiguous());
+    }
+
     let input_guard = input.data();
     let input_data = &*input_guard;
 
@@ -89,12 +234,80 @@ pub struct TanhBackward {
 impl BackwardOp for TanhBackward {
     fn backward(&self, grad: &Tensor) {
         if self.input.requires_grad() {
-            // grad_input = grad * (1 - tanh(x)^2)
-            let t = tanh(&self.input);
-            let one = Tensor::ones(t.shape());
-            let t2 = crate::ops::mul(&t, &t);
-            let dt = crate::ops::sub(&one, &t2);
-            let grad_input = crate::ops::mul(grad, &dt);
+            #[cfg(feature = "wgpu_backend")]
+            {
+                if let Some(_) = self.input.storage().wgpu_buffer() {
+                    // Recompute tanh
+                    let t = tanh(&self.input);
+                    let t_buf = t
+                        .storage()
+                        .wgpu_buffer()
+                        .expect("Tanh output should be on GPU");
+
+                    let grad_contig = if !grad.is_contiguous() {
+                        grad.contiguous()
+                    } else {
+                        grad.clone()
+                    };
+                    let grad_buf = grad_contig
+                        .storage()
+                        .wgpu_buffer()
+                        .expect("Grad should be on GPU");
+
+                    use crate::backend::wgpu::{elementwise_wgpu_buffer, ElementwiseOp};
+                    let size = grad.shape().iter().product();
+                    // TanhBackward: (1 - t^2) * grad
+                    let output_buf = elementwise_wgpu_buffer(
+                        t_buf,
+                        t.shape(),
+                        t.strides(),
+                        Some((grad_buf, grad.shape(), grad.strides())),
+                        grad.shape(),
+                        ElementwiseOp::TanhBackward,
+                        None,
+                    );
+
+                    let storage = Storage::new_wgpu(output_buf, size, 0);
+                    let grad_input = Tensor::new_with_storage(storage, grad.shape());
+
+                    self.input.accumulate_grad(&grad_input);
+                    self.input.backward_step();
+                    return;
+                }
+            }
+
+            // Fix: CPU Fallback
+            #[cfg(feature = "wgpu_backend")]
+            let (input, grad) = {
+                let i = if self.input.storage().device().is_wgpu() {
+                    self.input.to_cpu()
+                } else {
+                    self.input.clone()
+                };
+                let g = if grad.storage().device().is_wgpu() {
+                    grad.to_cpu()
+                } else {
+                    grad.clone()
+                };
+                (i, g)
+            };
+            #[cfg(not(feature = "wgpu_backend"))]
+            let (input, grad) = (self.input.clone(), grad.clone());
+
+            let t = tanh(&input);
+
+            let t_guard = t.data();
+            let grad_guard = grad.data();
+            let t_data = &*t_guard;
+            let grad_data = &*grad_guard;
+
+            let grad_input_data: Vec<f32> = t_data
+                .par_iter()
+                .zip(grad_data.par_iter())
+                .map(|(t_val, g_val)| g_val * (1.0 - t_val * t_val))
+                .collect();
+
+            let grad_input = Tensor::new_with_storage(Storage::new(grad_input_data), grad.shape());
 
             self.input.accumulate_grad(&grad_input);
             self.input.backward_step();
@@ -117,6 +330,17 @@ pub fn softmax(input: &Tensor, dim: i64) -> Tensor {
     let shape = input.shape();
     let last_dim_size = shape[shape.len() - 1];
     let _outer_size: usize = shape.iter().take(shape.len() - 1).product();
+
+    if !input.is_contiguous() {
+        return softmax(&input.contiguous(), dim as i64);
+    }
+
+    #[cfg(feature = "wgpu_backend")]
+    let input = if input.storage().device().is_wgpu() {
+        input.to_cpu()
+    } else {
+        input.clone()
+    };
 
     let input_guard = input.data();
     let input_data = &*input_guard;
@@ -191,6 +415,21 @@ impl BackwardOp for SoftmaxBackward {
             // grad_input = S * (grad - sum(grad * S, dim=keepdim))
             // We need sum reduction.
             // Let's implement manually for last dim.
+
+            #[cfg(feature = "wgpu_backend")]
+            let (s, grad) = {
+                let s = if s.storage().device().is_wgpu() {
+                    s.to_cpu()
+                } else {
+                    s
+                };
+                let g = if grad.storage().device().is_wgpu() {
+                    grad.to_cpu()
+                } else {
+                    grad.clone()
+                };
+                (s, g)
+            };
 
             let s_guard = s.data();
             let s_data = &*s_guard;

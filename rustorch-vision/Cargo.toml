@@ -1,6 +1,6 @@
 [package]
 name = "rustorch-vision"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Trae AI <trae@example.com>"]
 description = "Computer vision models and utilities for RusTorch"
@@ -10,6 +10,6 @@ keywords = ["computer-vision", "image-processing", "deep-learning", "rustorch"]
 categories = ["science", "computer-vision"]
 
 [dependencies]
-rustorch-core = { path = "../rustorch-core", version = "0.1.0" }
-rustorch-nn = { path = "../rustorch-nn", version = "0.1.0" }
+rustorch-core = { path = "../rustorch-core", version = "0.1.2" }
+rustorch-nn = { path = "../rustorch-nn", version = "0.1.2" }
 image = "0.24" # For image loading

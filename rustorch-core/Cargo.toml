@@ -1,6 +1,6 @@
 [package]
 name = "rustorch-core"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Trae AI <trae@example.com>"]
 description = "Core tensor library for RusTorch"
@@ -15,16 +15,29 @@ rand_distr = "0.4"
 num-traits = "0.2"
 thiserror = "1.0"
 rayon = "1.7"
+parking_lot = "0.12"
+matrixmultiply = "0.3"
 serde = { version = "1.0", features = ["derive"], optional = true }
 cudarc = { version = "0.9", optional = true, default-features = false }
 wgpu = { version = "0.19", optional = true }
 pollster = { version = "0.3", optional = true }
 vulkano = { version = "0.34", optional = true }
+wide = "1.1.1"
+bytemuck = { version = "1.25.0", features = ["derive"] }
 
 [features]
-default = []
+default = ["wgpu_backend"]
 serialization = ["serde"]
 cuda = ["cudarc"]
 wgpu_backend = ["wgpu", "pollster"]
 vulkan_backend = ["vulkano"]
 serde = ["dep:serde"]
+wgpu = ["dep:wgpu"]
+pollster = ["dep:pollster"]
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "matmul_bench"
+harness = false

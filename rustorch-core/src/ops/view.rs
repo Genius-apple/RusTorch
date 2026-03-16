@@ -32,11 +32,6 @@ pub struct PermuteBackward {
 impl BackwardOp for PermuteBackward {
     fn backward(&self, grad: &Tensor) {
         if self.input.requires_grad() {
-            // Inverse permutation needed
-            // If dims is [1, 0], we permute grad with [1, 0] to get back.
-            // If dims is [0, 2, 1], inverse is [0, 2, 1].
-            // If dims is [2, 0, 1], inverse is [1, 2, 0].
-
             let ndim = self.dims.len();
             let mut inverse_dims = vec![0; ndim];
             for (i, &d) in self.dims.iter().enumerate() {
@@ -86,7 +81,7 @@ pub fn permute(input: &Tensor, dims: &[usize]) -> Tensor {
 
     let inner = &input.inner;
 
-    let tensor = Tensor {
+    let mut tensor = Tensor {
         inner: Arc::new(TensorImpl {
             storage: inner.storage.clone(),
             shape: new_shape,
@@ -98,43 +93,11 @@ pub fn permute(input: &Tensor, dims: &[usize]) -> Tensor {
         }),
     };
 
-    if inner.requires_grad {
-        let _t = tensor.clone(); // Mutable clone wrapper
-                                 // Actually we need to set op on `tensor`.
-                                 // But `Tensor` struct has `inner` which is `Arc`.
-                                 // We just created it, so we can modify it if we had mut access.
-                                 // But `TensorImpl` fields are immutable after creation usually unless Mutex.
-                                 // `op` is `Option<Arc<dyn BackwardOp>>` inside `TensorImpl`.
-                                 // Wait, `TensorImpl` definition:
-                                 // pub(crate) op: Option<Arc<dyn BackwardOp>>
-                                 // It's not Mutex protected?
-                                 // Let's check TensorImpl definition again.
-                                 // In previous turns, `op` was `Option<Arc<dyn BackwardOp>>`.
-                                 // `Tensor::set_op` uses `Arc::get_mut` or unsafe if shared?
-                                 // `Tensor` usually wraps `Arc<TensorImpl>`.
-                                 // If we just created `Arc`, we can get mut.
-
-        // However, `Tensor` methods like `set_op` handle this?
-        // `set_op` is likely `unsafe` or uses internal mutability if designed for it.
-        // But here I'm constructing `TensorImpl` directly.
-
-        let op = Arc::new(PermuteBackward {
+    if input.requires_grad() {
+        tensor.set_op(Arc::new(PermuteBackward {
             input: input.clone(),
             dims: dims.to_vec(),
-        });
-
-        // Re-construct with op
-        return Tensor {
-            inner: Arc::new(TensorImpl {
-                storage: inner.storage.clone(),
-                shape: tensor.shape().to_vec(),
-                strides: tensor.strides().to_vec(),
-                grad: Mutex::new(None),
-                requires_grad: true,
-                op: Some(op as Arc<dyn BackwardOp>),
-                is_leaf: false,
-            }),
-        };
+        }));
     }
 
     tensor
@@ -152,83 +115,218 @@ pub fn contiguous(input: &Tensor) -> Tensor {
         return input.clone();
     }
 
-    // Create new contiguous storage
+    #[cfg(feature = "wgpu_backend")]
+    {
+        if input.storage().device().is_wgpu() {
+            if let Some(input_buf) = input.storage().wgpu_buffer() {
+                let output_buf = crate::backend::wgpu::contiguous_wgpu(
+                    input_buf,
+                    input.shape(),
+                    input.strides(),
+                );
+
+                let size: usize = input.shape().iter().product();
+                let storage = Storage::new_wgpu(output_buf, size, 0);
+                let mut tensor = Tensor::new_with_storage(storage, input.shape());
+                if input.requires_grad() {
+                    tensor.set_requires_grad_mut(true);
+                    tensor.set_op(Arc::new(ContiguousBackward {
+                        input: input.clone(),
+                    }));
+                }
+                return tensor;
+            }
+        }
+    }
+
     let shape = input.shape();
     let size: usize = shape.iter().product();
     let mut data = vec![0.0; size];
 
-    // Iterate logical indices and copy
-    // Naive iteration for now.
-    // Optimization: recursive copy or specialized iterator.
-
-    // We need an iterator that yields offsets based on strides.
-    // Or just multi-dim loop.
-    // Since ndim is dynamic, we use recursion.
-
-    let input_guard = input.data(); // This gives storage data (linear)
+    let input_guard = input.data();
     let input_storage = &*input_guard;
-
     let strides = input.strides();
-
-    // Helper closure to iterate
-    // But recursive closure in Rust is tricky.
-    // Use explicit stack or struct.
-
-    // Iterating 0..size is logical index.
-    // We need to convert logical index to physical offset.
-    // logical_to_physical(index, shape, strides)
+    let storage_len = input_storage.len();
 
     for (i, val) in data.iter_mut().enumerate().take(size) {
-        let _idx = i;
         let mut physical_offset = 0;
-        let _shape_mul = size;
-
-        // Decompose linear index i into coords
-        // shape: [d0, d1, d2]
-        // strides: [s0, s1, s2]
-
-        // Standard contiguous strides: [d1*d2, d2, 1]
-        // We can precompute contiguous strides.
-
-        // Let's do it properly:
-        // We need to map linear index `i` (in new contiguous tensor) -> `offset` (in old storage)
-
         let mut temp_i = i;
         for dim_idx in (0..shape.len()).rev() {
             let dim_size = shape[dim_idx];
             let coord = temp_i % dim_size;
             temp_i /= dim_size;
-
             physical_offset += coord * strides[dim_idx];
         }
-
-        *val = input_storage[physical_offset];
+        if storage_len == 1 {
+            *val = input_storage[0];
+        } else if physical_offset < storage_len {
+            *val = input_storage[physical_offset];
+        } else {
+            *val = 0.0;
+        }
     }
 
     let storage = Storage::new(data);
     let mut tensor = Tensor::new_with_storage(storage, shape);
     if input.requires_grad() {
         tensor.set_requires_grad_mut(true);
-        // ContiguousBackward is Identity (or Permute inverse if we track it as permute?)
-        // Actually, contiguous is just a copy. Backward propagates gradients.
-        // If we view it as Identity op on graph (just memory reorg), gradients flow back 1:1?
-        // No, if we permuted before, gradient must be permuted back.
-        // But `permute` already registered a BackwardOp.
-        // `contiguous` creates a new leaf-like node in the graph relative to `permute`.
-        // So we need a `CopyBackward` or just identity if shape matches.
-        // But shape matches.
-        // So simple identity backward.
-        // We need an Identity op.
-
-        // For now, let's assume `permute` handles the shape change logic.
-        // `contiguous` just copies data.
-        // So we can use an IdentityBackward.
-        // Or better: `contiguous` is often implicit.
-        // But if we create a new Tensor, we must link it.
-
-        // Let's reuse ReshapeBackward with same shape?
-        // Or implement `ContiguousBackward`.
-        // Or just `Identity`.
+        tensor.set_op(Arc::new(ContiguousBackward {
+            input: input.clone(),
+        }));
     }
     tensor
+}
+
+#[derive(Debug)]
+pub struct ContiguousBackward {
+    pub input: Tensor,
+}
+
+impl BackwardOp for ContiguousBackward {
+    fn backward(&self, grad: &Tensor) {
+        if self.input.requires_grad() {
+            let grad_contig = if grad.is_contiguous() {
+                grad.clone()
+            } else {
+                grad.contiguous()
+            };
+            let grad_view = grad_contig.reshape(self.input.shape());
+
+            let mut grad_input = if self.input.is_contiguous() {
+                grad_view
+            } else {
+                let mut data = vec![0.0; self.input.shape().iter().product()];
+                let strides = self.input.strides();
+                let shape = self.input.shape();
+
+                let grad_guard = grad_view.data();
+                let grad_data = &*grad_guard;
+
+                for (i, &g) in grad_data.iter().enumerate() {
+                    let mut physical_offset = 0;
+                    let mut temp_i = i;
+                    for dim_idx in (0..shape.len()).rev() {
+                        let dim_size = shape[dim_idx];
+                        let coord = temp_i % dim_size;
+                        temp_i /= dim_size;
+                        physical_offset += coord * strides[dim_idx];
+                    }
+                    data[physical_offset] = g;
+                }
+
+                Tensor::new_with_storage(Storage::new(data), shape)
+            };
+
+            grad_input.set_requires_grad_mut(true);
+            self.input.accumulate_grad(&grad_input);
+            self.input.backward_step();
+        }
+    }
+}
+
+pub fn sum_to(input: &Tensor, shape: &[usize]) -> Tensor {
+    if input.shape() == shape {
+        return input.clone();
+    }
+
+    #[cfg(feature = "wgpu_backend")]
+    {
+        if input.storage().device().is_wgpu() {
+            let input_shape = input.shape();
+            let input_ndim = input_shape.len();
+            let output_ndim = shape.len();
+
+            if output_ndim == 0 || (output_ndim == 1 && shape[0] == 1) {
+                let input_contig = if input.is_contiguous() {
+                    input.clone()
+                } else {
+                    input.contiguous()
+                };
+                if let Some(input_buf) = input_contig.storage().wgpu_buffer() {
+                    let total_size: usize = input_contig.shape().iter().product();
+                    let output_buf =
+                        crate::backend::wgpu::reduce_sum_all_wgpu(input_buf, total_size);
+                    let storage = Storage::new_wgpu(output_buf, 1, 0);
+                    return Tensor::new_with_storage(storage, shape);
+                }
+            }
+
+            if input_ndim == 2 && output_ndim == 1 && input_shape[1] == shape[0] {
+                let input_contig = if input.is_contiguous() {
+                    input.clone()
+                } else {
+                    input.contiguous()
+                };
+                if let Some(input_buf) = input_contig.storage().wgpu_buffer() {
+                    let output_buf =
+                        crate::backend::wgpu::reduce_sum_dim0_wgpu(input_buf, input_contig.shape());
+                    let size: usize = shape.iter().product();
+                    let storage = Storage::new_wgpu(output_buf, size, 0);
+                    return Tensor::new_with_storage(storage, shape);
+                }
+            }
+
+            if input_ndim == 2 && output_ndim == 1 && input_shape[0] == shape[0] {
+                let input_contig = if input.is_contiguous() {
+                    input.clone()
+                } else {
+                    input.contiguous()
+                };
+                if let Some(input_buf) = input_contig.storage().wgpu_buffer() {
+                    let output_buf = crate::backend::wgpu::reduce_sum_dim_wgpu(
+                        input_buf,
+                        input_contig.shape(),
+                        1,
+                    );
+                    let size: usize = shape.iter().product();
+                    let storage = Storage::new_wgpu(output_buf, size, 0);
+                    return Tensor::new_with_storage(storage, shape);
+                }
+            }
+        }
+    }
+
+    let input_contig = if input.is_contiguous() {
+        input.clone()
+    } else {
+        input.contiguous()
+    };
+    let input_shape = input_contig.shape();
+    let output_shape = shape;
+
+    if input_shape.len() == 2 && output_shape.len() == 1 {
+        if input_shape[1] == output_shape[0] {
+            let m = input_shape[0];
+            let n = input_shape[1];
+            let data = input_contig.data();
+            let mut result = vec![0.0; n];
+
+            for (j, out) in result.iter_mut().enumerate().take(n) {
+                let mut col = vec![0.0f32; m];
+                for i in 0..m {
+                    col[i] = data[i * n + j];
+                }
+                *out = crate::ops::sum_auto(&col);
+            }
+
+            return Tensor::new_with_storage(Storage::new(result), output_shape);
+        }
+    }
+
+    if input_shape.len() == 1 && output_shape.len() == 1 {
+        if input_shape[0] == output_shape[0] {
+            return input_contig.clone();
+        }
+    }
+
+    if output_shape.iter().product::<usize>() == 1 {
+        let data = input_contig.data();
+        let sum = crate::ops::sum_auto(&data);
+        return Tensor::new_with_storage(Storage::new(vec![sum]), output_shape);
+    }
+
+    panic!(
+        "General sum_to not implemented for shape {:?} -> {:?}",
+        input_shape, output_shape
+    );
 }

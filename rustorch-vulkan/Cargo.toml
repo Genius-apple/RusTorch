@@ -1,10 +1,9 @@
 [package]
 name = "rustorch-vulkan"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 
 [dependencies]
-rustorch-core = { path = "../rustorch-core", version = "0.1.1", features = ["vulkan_backend"] }
+rustorch-core = { path = "../rustorch-core", version = "0.1.2", features = ["vulkan_backend"] }
 vulkano = "0.34"
-vulkano-shaders = "0.34"
 anyhow = "1.0"

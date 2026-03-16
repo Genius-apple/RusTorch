@@ -1,6 +1,6 @@
-use std::sync::{Arc, Mutex};
-use std::collections::HashMap;
 use crate::Tensor;
+use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
 
 // --- Graph Tracing ---
 
@@ -11,9 +11,16 @@ pub enum NodeOp {
     Add,
     Sub,
     MatMul,
-    Conv2d { stride: (usize, usize), padding: (usize, usize) },
+    Conv2d {
+        stride: (usize, usize),
+        padding: (usize, usize),
+    },
     ReLU,
-    MaxPool2d { kernel_size: (usize, usize), stride: (usize, usize), padding: (usize, usize) },
+    MaxPool2d {
+        kernel_size: (usize, usize),
+        stride: (usize, usize),
+        padding: (usize, usize),
+    },
     BatchNorm2d,
     // ... other ops
 }
@@ -42,8 +49,14 @@ impl Graph {
             outputs: Vec::new(),
         }
     }
-    
-    pub fn add_node(&mut self, op: NodeOp, inputs: Vec<usize>, shape: Vec<usize>, name: Option<String>) -> usize {
+
+    pub fn add_node(
+        &mut self,
+        op: NodeOp,
+        inputs: Vec<usize>,
+        shape: Vec<usize>,
+        name: Option<String>,
+    ) -> usize {
         let id = self.nodes.len();
         self.nodes.push(Node {
             id,
@@ -54,11 +67,14 @@ impl Graph {
         });
         id
     }
-    
+
     pub fn print(&self) {
         println!("Graph:");
         for node in &self.nodes {
-            println!("  Node {}: {:?} shape={:?} inputs={:?}", node.id, node.op, node.shape, node.inputs);
+            println!(
+                "  Node {}: {:?} shape={:?} inputs={:?}",
+                node.id, node.op, node.shape, node.inputs
+            );
         }
     }
 }
@@ -90,9 +106,7 @@ pub fn stop_tracing() -> Option<Graph> {
 }
 
 pub fn is_tracing() -> bool {
-    TRACER_CTX.with(|ctx| {
-        ctx.lock().unwrap().is_some()
-    })
+    TRACER_CTX.with(|ctx| ctx.lock().unwrap().is_some())
 }
 
 fn get_node_id(tensor: &Tensor) -> Option<usize> {
@@ -109,7 +123,9 @@ fn get_node_id(tensor: &Tensor) -> Option<usize> {
 pub fn register_input(tensor: &Tensor, name: String) {
     TRACER_CTX.with(|ctx| {
         if let Some(c) = ctx.lock().unwrap().as_mut() {
-            let node_id = c.graph.add_node(NodeOp::Input, vec![], tensor.shape().to_vec(), Some(name));
+            let node_id =
+                c.graph
+                    .add_node(NodeOp::Input, vec![], tensor.shape().to_vec(), Some(name));
             let ptr = Arc::as_ptr(&tensor.inner) as usize;
             c.tensor_map.insert(ptr, node_id);
             c.graph.inputs.push(node_id);
@@ -128,7 +144,9 @@ pub fn record_op(op: NodeOp, inputs: &[&Tensor], output: &Tensor) {
             // For now, let's assume it's a constant/param
             TRACER_CTX.with(|ctx| {
                 if let Some(c) = ctx.lock().unwrap().as_mut() {
-                    let id = c.graph.add_node(NodeOp::Constant, vec![], t.shape().to_vec(), None);
+                    let id = c
+                        .graph
+                        .add_node(NodeOp::Constant, vec![], t.shape().to_vec(), None);
                     let ptr = Arc::as_ptr(&t.inner) as usize;
                     c.tensor_map.insert(ptr, id);
                     input_ids.push(id);
@@ -139,7 +157,9 @@ pub fn record_op(op: NodeOp, inputs: &[&Tensor], output: &Tensor) {
 
     TRACER_CTX.with(|ctx| {
         if let Some(c) = ctx.lock().unwrap().as_mut() {
-            let node_id = c.graph.add_node(op, input_ids, output.shape().to_vec(), None);
+            let node_id = c
+                .graph
+                .add_node(op, input_ids, output.shape().to_vec(), None);
             let ptr = Arc::as_ptr(&output.inner) as usize;
             c.tensor_map.insert(ptr, node_id);
         }

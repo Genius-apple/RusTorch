@@ -1,5 +1,6 @@
 use crate::Module;
 use rustorch_core::Tensor;
+// use rand::Rng; // Unused
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 

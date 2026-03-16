@@ -11,6 +11,17 @@
 
 ---
 
+## 🎬 Interactive Demo
+
+[![Open in GitHub Codespaces](https://img.shields.io/badge/Open%20Demo-Codespaces-181717?logo=github)](https://codespaces.new/Genius-apple/RusTorch)
+[![CI](https://img.shields.io/github/actions/workflow/status/Genius-apple/RusTorch/ci.yml?branch=main&label=CI)](https://github.com/Genius-apple/RusTorch/actions/workflows/ci.yml)
+
+- Click the Codespaces badge above to launch the interactive RustTorch vs PyTorch demo directly from GitHub
+- The demo server auto-starts in Codespaces and exposes `http://127.0.0.1:3003/`
+- The dashboard includes real-time training curves, speed ratio timeline, pipeline stats, and one-click PROMO mode
+
+---
+
 ## 🚀 Why RusTorch?
 
 *   **⚡ Blazing Fast**: Powered by `Rayon` for parallel CPU execution and optimized CUDA kernels (coming soon) for GPU. Zero-cost abstractions mean you pay for what you use.
@@ -140,7 +151,7 @@ Add RusTorch to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rus-torch = "0.1.1"
+rus-torch = "0.1.2"
 ```
 
 ### 🔥 Train a Model in 30 Seconds

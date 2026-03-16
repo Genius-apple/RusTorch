@@ -1,5 +1,6 @@
+use parking_lot::{RwLock, RwLockReadGuard, RwLockWriteGuard};
 use std::fmt;
-use std::sync::{Arc, RwLock, RwLockReadGuard, RwLockWriteGuard};
+use std::sync::Arc;
 
 #[cfg(feature = "cuda")]
 use cudarc::driver::CudaSlice;
@@ -8,13 +9,22 @@ use vulkano::buffer::Subbuffer;
 #[cfg(feature = "wgpu_backend")]
 use wgpu;
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Device {
     Cpu,
     Cuda(usize),
     Metal(usize),
     Wgpu(usize),
     Vulkan(usize),
+}
+
+impl Device {
+    pub fn is_wgpu(&self) -> bool {
+        match self {
+            Device::Wgpu(_) => true,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Clone)]
@@ -26,9 +36,25 @@ enum StorageImpl {
     #[allow(dead_code)]
     CudaStub,
     #[cfg(feature = "wgpu_backend")]
-    Wgpu(Arc<wgpu::Buffer>, usize), // Buffer and element count
+    Wgpu(Arc<PooledBuffer>, usize),
+
     #[cfg(feature = "vulkan_backend")]
     Vulkan(Arc<Subbuffer<[f32]>>),
+}
+
+#[cfg(feature = "wgpu_backend")]
+pub struct PooledBuffer {
+    buffer: Option<wgpu::Buffer>,
+    size: u64,
+}
+
+#[cfg(feature = "wgpu_backend")]
+impl Drop for PooledBuffer {
+    fn drop(&mut self) {
+        if let Some(buf) = self.buffer.take() {
+            crate::backend::wgpu::get_memory_pool().return_buffer(buf, self.size);
+        }
+    }
 }
 
 #[derive(Clone)]
@@ -54,10 +80,15 @@ impl Storage {
     }
 
     #[cfg(feature = "wgpu_backend")]
-    pub fn new_wgpu(buffer: Arc<wgpu::Buffer>, size: usize, device_id: usize) -> Self {
+    pub fn new_wgpu(buffer: wgpu::Buffer, size: usize, _device_id: usize) -> Self {
+        let size_bytes = (size * std::mem::size_of::<f32>()) as u64;
+        let pooled = PooledBuffer {
+            buffer: Some(buffer),
+            size: size_bytes,
+        };
         Self {
-            inner: StorageImpl::Wgpu(buffer, size),
-            device: Device::Wgpu(device_id),
+            inner: StorageImpl::Wgpu(Arc::new(pooled), size),
+            device: Device::Wgpu(_device_id),
         }
     }
 
@@ -72,7 +103,7 @@ impl Storage {
     #[cfg(feature = "wgpu_backend")]
     pub fn wgpu_buffer(&self) -> Option<&wgpu::Buffer> {
         match &self.inner {
-            StorageImpl::Wgpu(buffer, _) => Some(buffer),
+            StorageImpl::Wgpu(pooled, _) => pooled.buffer.as_ref(),
             _ => None,
         }
     }
@@ -95,14 +126,34 @@ impl Storage {
 
     pub fn data(&self) -> RwLockReadGuard<'_, Vec<f32>> {
         match &self.inner {
-            StorageImpl::Cpu(data) => data.read().expect("Lock poisoned"),
-            _ => panic!("data() accessor only supported on CPU tensors. Use to_device() to move to CPU first."),
+            StorageImpl::Cpu(data) => data.read(),
+            #[cfg(feature = "wgpu_backend")]
+            StorageImpl::Wgpu(_, _) => {
+                // Temporary workaround: panic with clear message
+                // Ideally, we should not access data() on WGPU tensor without to_cpu()
+                // But some code paths might do it implicitly.
+                // We CANNOT return a RwLockReadGuard here because we don't have the data locally locked.
+                // We must panic or refactor `data()` to return `Cow<[f32]>` or similar, but that breaks API.
+
+                println!(
+                    "CRITICAL ERROR: data() called on non-CPU storage. Device: {:?}",
+                    self.device
+                );
+                panic!("data() accessor only supported on CPU tensors. Use to_device() to move to CPU first.");
+            }
+            _ => {
+                println!(
+                    "CRITICAL ERROR: data() called on non-CPU storage. Device: {:?}",
+                    self.device
+                );
+                panic!("data() accessor only supported on CPU tensors. Use to_device() to move to CPU first.");
+            }
         }
     }
 
     pub fn data_mut(&self) -> RwLockWriteGuard<'_, Vec<f32>> {
         match &self.inner {
-            StorageImpl::Cpu(data) => data.write().expect("Lock poisoned"),
+            StorageImpl::Cpu(data) => data.write(),
             _ => panic!("data_mut() accessor only supported on CPU tensors."),
         }
     }
@@ -113,7 +164,7 @@ impl Storage {
 
     pub fn len(&self) -> usize {
         match &self.inner {
-            StorageImpl::Cpu(data) => data.read().expect("Lock poisoned").len(),
+            StorageImpl::Cpu(data) => data.read().len(),
             #[cfg(feature = "cuda")]
             StorageImpl::Cuda(data) => data.len(),
             #[cfg(not(feature = "cuda"))]
@@ -175,7 +226,7 @@ impl fmt::Debug for Storage {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self.inner {
             StorageImpl::Cpu(data) => {
-                let guard = data.read().unwrap();
+                let guard = data.read();
                 write!(f, "Storage({:?}, size={})", self.device, guard.len())
             }
             #[cfg(feature = "cuda")]

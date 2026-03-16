@@ -1,6 +1,7 @@
+use parking_lot::{RwLockReadGuard, RwLockWriteGuard};
 use std::fmt;
-use std::ops::{Add, Mul, Sub};
-use std::sync::{Arc, Mutex, RwLockReadGuard, RwLockWriteGuard};
+use std::ops::{Add, Div, Mul, Sub};
+use std::sync::{Arc, Mutex};
 // use rand::Rng;
 use rand_distr::{Distribution, Normal, Uniform};
 // use rayon::prelude::*;
@@ -31,6 +32,23 @@ pub(crate) struct TensorImpl {
     pub(crate) requires_grad: bool,
     pub(crate) op: Option<Arc<dyn BackwardOp>>, // Operation that created this tensor
     pub(crate) is_leaf: bool,
+}
+
+#[cfg(feature = "wgpu_backend")]
+#[derive(Debug)]
+struct ToCpuBackward {
+    input: Tensor,
+}
+
+#[cfg(feature = "wgpu_backend")]
+impl BackwardOp for ToCpuBackward {
+    fn backward(&self, grad: &Tensor) {
+        if self.input.requires_grad() {
+            let grad_wgpu = grad.to_wgpu();
+            self.input.accumulate_grad(&grad_wgpu);
+            self.input.backward_step();
+        }
+    }
 }
 
 impl Tensor {
@@ -71,7 +89,7 @@ impl Tensor {
                 grad: Mutex::new(None),
                 requires_grad: false,
                 op: None,
-                is_leaf: false,
+                is_leaf: true,
             }),
         }
     }
@@ -95,6 +113,113 @@ impl Tensor {
 
     pub fn storage(&self) -> &Storage {
         &self.inner.storage
+    }
+
+    #[cfg(feature = "wgpu_backend")]
+    pub fn to_wgpu(&self) -> Self {
+        if let Some(_) = self.storage().wgpu_buffer() {
+            return self.clone();
+        }
+
+        let contig = if self.is_contiguous() {
+            self.clone()
+        } else {
+            self.contiguous()
+        };
+
+        let data = contig.data();
+        let ctx = crate::backend::wgpu::get_context().expect("WGPU context not initialized");
+
+        use wgpu::util::DeviceExt;
+        let buffer = ctx
+            .device
+            .create_buffer_init(&wgpu::util::BufferInitDescriptor {
+                label: Some("Tensor Buffer"),
+                contents: bytemuck::cast_slice(&data),
+                usage: wgpu::BufferUsages::STORAGE
+                    | wgpu::BufferUsages::COPY_SRC
+                    | wgpu::BufferUsages::COPY_DST,
+            });
+
+        let storage = Storage::new_wgpu(buffer, data.len(), 0);
+
+        let inner = TensorImpl {
+            storage,
+            shape: contig.shape().to_vec(),
+            strides: contig.strides().to_vec(),
+            grad: Mutex::new(None),
+            requires_grad: self.requires_grad(),
+            op: None,
+            is_leaf: self.inner.is_leaf,
+        };
+
+        Tensor {
+            inner: Arc::new(inner),
+        }
+    }
+
+    #[cfg(feature = "wgpu_backend")]
+    pub fn to_cpu(&self) -> Self {
+        if let Some(buffer) = self.storage().wgpu_buffer() {
+            // Flush any pending commands to ensure buffer is ready
+            crate::backend::wgpu::flush_queue();
+
+            let ctx = crate::backend::wgpu::get_context().expect("WGPU context not initialized");
+
+            let buf_size = buffer.size();
+
+            let staging_buffer = ctx.device.create_buffer(&wgpu::BufferDescriptor {
+                label: Some("Staging Buffer"),
+                size: buf_size,
+                usage: wgpu::BufferUsages::MAP_READ | wgpu::BufferUsages::COPY_DST,
+                mapped_at_creation: false,
+            });
+
+            let mut encoder = ctx
+                .device
+                .create_command_encoder(&wgpu::CommandEncoderDescriptor {
+                    label: Some("Download Encoder"),
+                });
+            encoder.copy_buffer_to_buffer(buffer, 0, &staging_buffer, 0, buf_size);
+            ctx.queue.submit(Some(encoder.finish()));
+
+            let buffer_slice = staging_buffer.slice(..);
+            let (sender, receiver) = std::sync::mpsc::channel();
+            buffer_slice.map_async(wgpu::MapMode::Read, move |v| sender.send(v).unwrap());
+
+            ctx.device.poll(wgpu::Maintain::Wait);
+            receiver.recv().unwrap().unwrap();
+
+            let data = buffer_slice.get_mapped_range();
+            let result: Vec<f32> = bytemuck::cast_slice(&data).to_vec();
+            drop(data);
+            staging_buffer.unmap();
+
+            // Create CPU tensor with SAME shape and strides, but using the downloaded storage
+            let storage = Storage::new(result);
+
+            // We need to construct Tensor manually to preserve strides/offset
+            let inner = TensorImpl {
+                storage,
+                shape: self.shape().to_vec(),
+                strides: self.strides().to_vec(),
+                grad: Mutex::new(None),
+                requires_grad: self.requires_grad(),
+                op: if self.requires_grad() {
+                    Some(Arc::new(ToCpuBackward {
+                        input: self.clone(),
+                    }))
+                } else {
+                    None
+                },
+                is_leaf: self.inner.is_leaf,
+            };
+            return Self {
+                inner: Arc::new(inner),
+            };
+        }
+        // println!("DEBUG: to_cpu falling back to clone (no WGPU buffer)");
+        self.clone()
     }
 
     pub fn shape(&self) -> &[usize] {
@@ -153,9 +278,25 @@ impl Tensor {
     pub fn accumulate_grad(&self, grad: &Tensor) {
         let mut g = self.inner.grad.lock().unwrap();
         if let Some(existing) = &*g {
-            // Check shape (sum broadcasting if needed?)
-            // For now assume same shape
-            *g = Some(existing + grad);
+            #[cfg(feature = "wgpu_backend")]
+            {
+                let existing_is_wgpu = existing.storage().wgpu_buffer().is_some();
+                let grad_is_wgpu = grad.storage().wgpu_buffer().is_some();
+
+                if existing_is_wgpu && grad_is_wgpu {
+                    *g = Some(existing.add(grad));
+                } else if existing_is_wgpu {
+                    *g = Some(existing.add(&grad.to_wgpu()));
+                } else if grad_is_wgpu {
+                    *g = Some(existing.add(&grad.to_cpu()));
+                } else {
+                    *g = Some(existing.add(grad));
+                }
+            }
+            #[cfg(not(feature = "wgpu_backend"))]
+            {
+                *g = Some(existing.add(grad));
+            }
         } else {
             *g = Some(grad.clone());
         }
@@ -177,16 +318,26 @@ impl Tensor {
     }
 
     pub fn backward_step(&self) {
-        // Topological sort is better, but recursive DFS works for DAG.
-        // We need to avoid visiting same node multiple times?
-        // PyTorch uses Engine. Here we do simple recursive DFS.
-        // Problem: Double counting if diamond shape.
-        // Standard approach: Queue based topological sort.
-        // For this task, keep existing recursive implementation if it exists, or implement simple one.
-
         if let Some(op) = &self.inner.op {
-            let grad = self.grad().unwrap();
-            op.backward(&grad);
+            if let Some(grad) = self.grad() {
+                op.backward(&grad);
+            }
+        }
+    }
+
+    /// Returns a new Tensor, detached from the current graph.
+    /// The result will never require gradient.
+    pub fn detach(&self) -> Tensor {
+        Tensor {
+            inner: Arc::new(TensorImpl {
+                storage: self.inner.storage.clone(),
+                shape: self.inner.shape.clone(),
+                strides: self.inner.strides.clone(),
+                grad: Mutex::new(None),
+                requires_grad: false,
+                op: None,
+                is_leaf: true,
+            }),
         }
     }
 
@@ -204,13 +355,8 @@ impl Tensor {
         }
     }
 
-    pub fn matmul(&self, _rhs: &Tensor) -> Tensor {
-        // crate::ops::matmul(self, rhs)
-        // Temporary placeholder or fix path
-        // Assume matmul is not yet exported or needs qualified path
-        // For now, let's assume it's in ops but maybe not pub
-        // Or better:
-        panic!("Matmul not fully implemented yet");
+    pub fn matmul(&self, rhs: &Tensor) -> Tensor {
+        crate::ops::matmul(self, rhs)
     }
 
     pub fn t(&self) -> Tensor {
@@ -305,12 +451,32 @@ impl Tensor {
     }
 
     pub fn contiguous(&self) -> Tensor {
+        if self.is_contiguous() {
+            return self.clone();
+        }
+
+        #[cfg(feature = "wgpu_backend")]
+        if let Some(input_buf) = self.storage().wgpu_buffer() {
+            use crate::backend::wgpu::contiguous_wgpu;
+            let output_buf = contiguous_wgpu(input_buf, self.shape(), self.strides());
+            let size: usize = self.shape().iter().product();
+            let storage = Storage::new_wgpu(output_buf, size, 0);
+            let mut tensor = Tensor::new_with_storage(storage, self.shape());
+            tensor.set_requires_grad_mut(self.requires_grad());
+            return tensor;
+        }
+
         crate::ops::view::contiguous(self)
     }
 
     pub fn is_contiguous(&self) -> bool {
         let default_strides = Self::compute_strides(self.shape());
-        self.strides() == default_strides
+        if self.strides() != default_strides {
+            return false;
+        }
+        let expected_size: usize = self.shape().iter().product();
+        let actual_size = self.storage().len();
+        expected_size == actual_size
     }
 
     pub fn normal_(&self, mean: f32, std: f32) {
@@ -379,6 +545,71 @@ impl Tensor {
         crate::ops::mul(self, rhs)
     }
 
+    pub fn div(&self, rhs: &Tensor) -> Tensor {
+        crate::ops::div(self, rhs)
+    }
+
+    #[cfg(feature = "wgpu_backend")]
+    pub fn matmul_relu(&self, rhs: &Tensor) -> Tensor {
+        crate::ops::matmul_fused(self, rhs, None, crate::backend::wgpu::Activation::ReLU)
+    }
+
+    #[cfg(not(feature = "wgpu_backend"))]
+    pub fn matmul_relu(&self, rhs: &Tensor) -> Tensor {
+        self.matmul(rhs).relu()
+    }
+
+    pub fn sgd_step(&self, grad: &Tensor, lr: f32) -> Tensor {
+        crate::ops::sgd_step(self, grad, lr)
+    }
+
+    pub fn copy_(&self, src: &Tensor) {
+        #[cfg(feature = "wgpu_backend")]
+        if self.storage().device().is_wgpu() {
+            if let Some(dest_buf) = self.storage().wgpu_buffer() {
+                let ctx = crate::backend::wgpu::get_context().expect("WGPU context missing");
+
+                // Case 1: src is WGPU -> GPU Copy
+                if let Some(src_buf) = src.storage().wgpu_buffer() {
+                    let mut encoder =
+                        ctx.device
+                            .create_command_encoder(&wgpu::CommandEncoderDescriptor {
+                                label: Some("Copy Encoder"),
+                            });
+                    encoder.copy_buffer_to_buffer(src_buf, 0, dest_buf, 0, dest_buf.size());
+                    ctx.queue.submit(Some(encoder.finish()));
+                    return;
+                }
+
+                // Case 2: src is CPU -> Upload
+                let src_cpu = if src.storage().device().is_wgpu() {
+                    src.to_cpu()
+                } else {
+                    src.clone()
+                };
+                let src_guard = src_cpu.data();
+                ctx.queue
+                    .write_buffer(dest_buf, 0, bytemuck::cast_slice(&src_guard));
+                return;
+            }
+        }
+
+        // Case 3: self is CPU -> Memcpy
+        let src_cpu = if src.storage().device().is_wgpu() {
+            src.to_cpu()
+        } else {
+            src.clone()
+        };
+        let mut dest_guard = self.data_mut();
+        let src_guard = src_cpu.data();
+        if dest_guard.len() != src_guard.len() {
+            // panic!("copy_: element count mismatch");
+            // Allow broadcasting? No, strict copy_ usually.
+        }
+        let len = std::cmp::min(dest_guard.len(), src_guard.len());
+        dest_guard[..len].copy_from_slice(&src_guard[..len]);
+    }
+
     fn compute_strides(shape: &[usize]) -> Vec<usize> {
         let mut strides = vec![0; shape.len()];
         let mut stride = 1;
@@ -429,6 +660,13 @@ impl Mul<Tensor> for Tensor {
     }
 }
 
+impl Div<Tensor> for Tensor {
+    type Output = Tensor;
+    fn div(self, rhs: Tensor) -> Tensor {
+        Tensor::div(&self, &rhs)
+    }
+}
+
 impl Sub for &Tensor {
     type Output = Tensor;
     fn sub(self, rhs: Self) -> Tensor {
@@ -440,6 +678,13 @@ impl Mul for &Tensor {
     type Output = Tensor;
     fn mul(self, rhs: Self) -> Tensor {
         self.mul(rhs)
+    }
+}
+
+impl Div for &Tensor {
+    type Output = Tensor;
+    fn div(self, rhs: Self) -> Tensor {
+        self.div(rhs)
     }
 }
 

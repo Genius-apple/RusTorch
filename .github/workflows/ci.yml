@@ -15,6 +15,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
     
     - name: Install LibTorch
       run: |
@@ -27,7 +30,34 @@ jobs:
       run: cargo build --verbose --workspace
     - name: Run tests
       run: cargo test --verbose --workspace
+    - name: Run alignment regression
+      run: python demo_visual/ci_regression.py
     - name: Run clippy
       run: cargo clippy --workspace -- -D warnings
     - name: Check formatting
       run: cargo fmt --all -- --check
+
+  demo-smoke:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install PyTorch CPU wheel
+      run: python -m pip install --upgrade pip && python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+    - name: Start demo server
+      run: |
+        cargo run --release -p demo_visual --bin demo_visual > demo.log 2>&1 &
+        echo $! > demo.pid
+        sleep 45
+    - name: Check demo endpoints
+      run: |
+        curl -fsS http://127.0.0.1:3003/ > /tmp/demo.html
+        curl -fsS http://127.0.0.1:3003/pipeline_stats
+        curl -fsS http://127.0.0.1:3003/promo_status
+    - name: Stop demo server
+      if: always()
+      run: |
+        kill "$(cat demo.pid)" || true
+        sleep 2

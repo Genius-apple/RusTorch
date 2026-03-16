@@ -1,6 +1,6 @@
 [package]
 name = "rus-torch"
-version = "0.1.0"
+version = "0.1.2"
 edition = "2021"
 authors = ["Trae AI <trae@example.com>"]
 description = "A comprehensive deep learning framework in Rust, merging core, nn, vision, text, and wasm"
@@ -10,11 +10,11 @@ keywords = ["deep-learning", "machine-learning", "neural-network", "computer-vis
 categories = ["science", "computer-vision", "text-processing", "wasm"]
 
 [dependencies]
-rustorch-core = { path = "../rustorch-core", version = "0.1.1" }
-rustorch-nn = { path = "../rustorch-nn", version = "0.1.0" }
-rustorch-vision = { path = "../rustorch-vision", version = "0.1.0", optional = true }
-rustorch-text = { path = "../rustorch-text", version = "0.1.0", optional = true }
-rustorch-wasm = { path = "../rustorch-wasm", version = "0.1.0", optional = true }
+rustorch-core = { path = "../rustorch-core", version = "0.1.2" }
+rustorch-nn = { path = "../rustorch-nn", version = "0.1.2" }
+rustorch-vision = { path = "../rustorch-vision", version = "0.1.2", optional = true }
+rustorch-text = { path = "../rustorch-text", version = "0.1.2", optional = true }
+rustorch-wasm = { path = "../rustorch-wasm", version = "0.1.2", optional = true }
 
 [features]
 default = ["vision", "text"]

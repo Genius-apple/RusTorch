@@ -1,6 +1,6 @@
 [package]
 name = "rustorch-cuda"
-version = "0.1.0"
+version = "0.1.2"
 edition = "2021"
 authors = ["Trae AI <trae@example.com>"]
 description = "CUDA kernels and bindings for RusTorch"

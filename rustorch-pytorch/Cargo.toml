@@ -1,9 +1,13 @@
 [package]
 name = "rustorch-pytorch"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 
 [dependencies]
-rustorch-core = { path = "../rustorch-core", version = "0.1.1" }
-tch = "0.13" # Or latest compatible version
+rustorch-core = { path = "../rustorch-core", version = "0.1.2" }
+tch = { version = "0.13", optional = true }
 anyhow = "1.0"
+
+[features]
+default = []
+pytorch_backend = ["dep:tch"]

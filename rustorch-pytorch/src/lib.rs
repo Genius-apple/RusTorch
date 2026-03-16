@@ -1,35 +1,24 @@
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use rustorch_core::Tensor;
 use std::path::Path;
-use tch::{self, Device as TchDevice, Kind};
 
 pub struct PyTorchAdapter;
 
+#[cfg(feature = "pytorch_backend")]
 impl PyTorchAdapter {
-    /// Convert a RusTorch Tensor to a PyTorch Tensor
     pub fn to_torch(tensor: &Tensor) -> tch::Tensor {
         let storage = tensor.storage();
-        let data = storage.data(); // Read lock
+        let data = storage.data();
         let shape: Vec<i64> = tensor.shape().iter().map(|&x| x as i64).collect();
-
-        // Create a PyTorch tensor from the data
-        // Currently assumes f32 and CPU
         let t = tch::Tensor::from_slice(&data);
         t.reshape(&shape)
     }
 
-    /// Convert a PyTorch Tensor to a RusTorch Tensor
     pub fn from_torch(tensor: &tch::Tensor) -> Result<Tensor> {
         let size: Vec<usize> = tensor.size().iter().map(|&x| x as usize).collect();
-
-        // Ensure the tensor is on CPU and is contiguous
-        let cpu_tensor = tensor.to_device(TchDevice::Cpu).contiguous();
-
-        // Check if the tensor is Float (f32)
-        if cpu_tensor.kind() != Kind::Float {
-            // Cast to float if not
-            // For now, we only support f32 in RusTorch
-            let float_tensor = cpu_tensor.to_kind(Kind::Float);
+        let cpu_tensor = tensor.to_device(tch::Device::Cpu).contiguous();
+        if cpu_tensor.kind() != tch::Kind::Float {
+            let float_tensor = cpu_tensor.to_kind(tch::Kind::Float);
             let numel = float_tensor.numel();
             let mut data = vec![0.0f32; numel];
             float_tensor.copy_data(&mut data, numel);
@@ -42,22 +31,18 @@ impl PyTorchAdapter {
         }
     }
 
-    /// Load a PyTorch model (.pth) and return a dictionary of tensors (state_dict)
     pub fn load_state_dict<P: AsRef<Path>>(
         path: P,
     ) -> Result<std::collections::HashMap<String, Tensor>> {
         let tensors = tch::Tensor::load_multi(path)?;
         let mut result = std::collections::HashMap::new();
-
         for (name, tensor) in tensors {
             let rt_tensor = Self::from_torch(&tensor)?;
             result.insert(name, rt_tensor);
         }
-
         Ok(result)
     }
 
-    /// Save a dictionary of RusTorch tensors to a .pth file
     pub fn save_state_dict<P: AsRef<Path>>(
         tensors: &std::collections::HashMap<String, Tensor>,
         path: P,
@@ -67,19 +52,32 @@ impl PyTorchAdapter {
             let t = Self::to_torch(tensor);
             named_tensors.push((name.clone(), t));
         }
-
-        // Convert to slice of (&str, Tensor)
         let named_tensors_refs: Vec<(&str, tch::Tensor)> = named_tensors
             .iter()
-            .map(|(n, t)| (n.as_str(), t.shallow_clone())) // shallow_clone is cheap
+            .map(|(n, t)| (n.as_str(), t.shallow_clone()))
             .collect();
-
         tch::Tensor::save_multi(&named_tensors_refs, path)?;
         Ok(())
     }
 }
 
-/// Operator mapping layer: Run operations using PyTorch backend
+#[cfg(not(feature = "pytorch_backend"))]
+impl PyTorchAdapter {
+    pub fn load_state_dict<P: AsRef<Path>>(
+        _path: P,
+    ) -> Result<std::collections::HashMap<String, Tensor>> {
+        Err(anyhow!("pytorch_backend feature is disabled"))
+    }
+
+    pub fn save_state_dict<P: AsRef<Path>>(
+        _tensors: &std::collections::HashMap<String, Tensor>,
+        _path: P,
+    ) -> Result<()> {
+        Err(anyhow!("pytorch_backend feature is disabled"))
+    }
+}
+
+#[cfg(feature = "pytorch_backend")]
 pub mod ops {
     use super::*;
     use rustorch_core::Tensor;
@@ -113,27 +111,44 @@ pub mod ops {
     }
 }
 
-#[cfg(test)]
+#[cfg(not(feature = "pytorch_backend"))]
+pub mod ops {
+    use super::*;
+    use rustorch_core::Tensor;
+
+    pub fn add(_a: &Tensor, _b: &Tensor) -> Result<Tensor> {
+        Err(anyhow!("pytorch_backend feature is disabled"))
+    }
+
+    pub fn sub(_a: &Tensor, _b: &Tensor) -> Result<Tensor> {
+        Err(anyhow!("pytorch_backend feature is disabled"))
+    }
+
+    pub fn mul(_a: &Tensor, _b: &Tensor) -> Result<Tensor> {
+        Err(anyhow!("pytorch_backend feature is disabled"))
+    }
+
+    pub fn matmul(_a: &Tensor, _b: &Tensor) -> Result<Tensor> {
+        Err(anyhow!("pytorch_backend feature is disabled"))
+    }
+}
+
+#[cfg(all(test, feature = "pytorch_backend"))]
 mod tests {
     use super::*;
     use rustorch_core::Tensor;
 
     #[test]
     fn test_conversion() {
-        // Create RusTorch tensor
         let data = vec![1.0, 2.0, 3.0, 4.0];
         let shape = vec![2, 2];
         let rt_tensor = Tensor::new(&data, &shape);
-
-        // Convert to PyTorch
         let torch_tensor = PyTorchAdapter::to_torch(&rt_tensor);
         assert_eq!(torch_tensor.size(), vec![2, 2]);
         let numel = torch_tensor.numel();
         let mut data_vec = vec![0.0f32; numel as usize];
         torch_tensor.copy_data(&mut data_vec, numel as usize);
         assert_eq!(data_vec, data);
-
-        // Convert back
         let rt_tensor_back = PyTorchAdapter::from_torch(&torch_tensor).unwrap();
         assert_eq!(rt_tensor_back.shape(), shape.as_slice());
         assert_eq!(*rt_tensor_back.storage().data(), data);
@@ -143,7 +158,6 @@ mod tests {
     fn test_ops() {
         let t1 = Tensor::new(&vec![1.0, 2.0, 3.0, 4.0], &[2, 2]);
         let t2 = Tensor::new(&vec![1.0, 1.0, 1.0, 1.0], &[2, 2]);
-
         let res = ops::add(&t1, &t2).unwrap();
         assert_eq!(*res.storage().data(), vec![2.0, 3.0, 4.0, 5.0]);
     }

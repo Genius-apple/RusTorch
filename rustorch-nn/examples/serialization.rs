@@ -2,7 +2,9 @@ use rustorch_core::Tensor;
 use rustorch_nn::{Conv2d, Linear, Module};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
+#[cfg(feature = "serde")]
 use std::fs::File;
+#[cfg(feature = "serde")]
 use std::io::{Read, Write};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
