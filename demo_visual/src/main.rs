@@ -1234,7 +1234,7 @@ async fn main() {
                                 Ok(Some(l)) => {
                                     println!("PyTorch Out: {}", l);
                                     if serde_json::from_str::<serde_json::Value>(&l).is_ok() {
-                                        let _ = tx_clone_py.send(l);
+                                        let _ = tx_clone_py.send(l.to_string());
                                     }
                                 }
                                 Ok(None) => stdout_done = true,
